@@ -1,7 +1,8 @@
 using System.Reflection;
 using Dapper;
+using Infrastructure.Extensions;
 
-namespace Infrastructure.DapperConfig;
+namespace Infrastructure.Data.Dapper;
 
 public class DapperConfiguration
 {

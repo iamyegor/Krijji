@@ -1,0 +1,59 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Syne:wght@400..800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    font-size: 16px;
+    font-family: "DM Sans", sans-serif;
+}
+
+@layer utilities {
+    .text-balance {
+        text-wrap: balance;
+    }
+}
+
+:root {
+    .glow-effect {
+        background: radial-gradient(circle, rgba(var(--glow)) 0%, rgba(var(--glow)) 70%);
+    }
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.light {
+    --bg: 241, 241, 241;
+    --conversion-box: 215, 215, 215, 0.25;
+    --txt-default: 17, 17, 17;
+    --txt-faded: 17, 17, 17, 0.5;
+    --primary: 24, 119, 242;
+    --exchange: 110, 110, 110;
+    --border: 205, 205, 205;
+    --glow: 0, 85, 255, 0.08;
+}
+
+.dark {
+    --bg: 17, 17, 17;
+    --conversion-box: 12, 12, 12, 0.53;
+    --txt-default: 255, 255, 255;
+    --txt-faded: 255, 255, 255, 0.5;
+    --primary: 24, 119, 242;
+    --exchange: 203, 203, 203;
+    --border: 34, 34, 34;
+    --glow: 27, 27, 27;
+}

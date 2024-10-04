@@ -1,4 +1,8 @@
 using System.Reflection;
+using Domain.Crypto;
+using Domain.CryptoName;
+using Domain.Currency;
+using Domain.Fiat;
 using Infrastructure.Specifications;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -10,6 +14,9 @@ public class ApplicationContext : DbContext
 {
     private readonly string _connectionString;
     private readonly bool _useLogger;
+    public DbSet<CryptoDetail> CryptoDetails => Set<CryptoDetail>();
+    public DbSet<Crypto> Cryptos => Set<Crypto>();
+    public DbSet<Fiat> Fiats => Set<Fiat>();
 
     public ApplicationContext() { }
 

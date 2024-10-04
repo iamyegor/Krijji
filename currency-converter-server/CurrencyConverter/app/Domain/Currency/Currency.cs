@@ -1,34 +1,30 @@
 ﻿using Domain.Common;
-using Domain.Currency.ValueObjects;
-using Domain.DomainErrors;
-using XResults;
+using Domain.Common.Preconditions;
 
 namespace Domain.Currency;
 
-public class Currency : ValueObject
+public abstract class Currency : Entity<int>
 {
     public string Code { get; }
-    public CurrencyType Type { get; }
+    public decimal RateToUsd { get; private set; }
+    public DateTime LastUpdated { get; private set; }
 
-    protected Currency() { }
+    protected Currency()
+        : base(0) { }
 
-    private Currency(string code, Type type)
+    protected Currency(string code, decimal rateToUsd, DateTime lastUpdated)
+        : base(0)
     {
+        Precondition.Requires(!string.IsNullOrWhiteSpace(code));
+
         Code = code;
+        RateToUsd = rateToUsd;
+        LastUpdated = lastUpdated;
     }
 
-    public static Result<Currency, Error> Create(string code, Type type)
+    public void UpdateRate(decimal newRate)
     {
-        if (string.IsNullOrWhiteSpace(code))
-        {
-            return Result.Fail(new Error("Invalid currency data"));
-        }
-
-        return Result.Ok(new Currency(code, type));
-    }
-
-    protected override IEnumerable<object?> GetPropertiesForComparison()
-    {
-        yield return Code;
+        RateToUsd = newRate;
+        LastUpdated = DateTime.UtcNow;
     }
 }

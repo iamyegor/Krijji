@@ -18,6 +18,6 @@ public static class DependencyInjection
             config.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         });
         
-        services.AddScoped<SampleJob>();
+        services.AddScoped<GetFiatCurrenciesJob>();
     }
 }

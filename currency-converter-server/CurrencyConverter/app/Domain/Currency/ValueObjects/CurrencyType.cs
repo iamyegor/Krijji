@@ -6,15 +6,15 @@ public class CurrencyType : ValueObject
 {
     public static CurrencyType Fiat => new("Fiat");
     public static CurrencyType Crypto => new("Crypto");
-    public string Type { get; }
+    public string Value { get; }
 
-    private CurrencyType(string type)
+    private CurrencyType(string value)
     {
-        Type = type;
+        Value = value;
     }
 
     protected override IEnumerable<object?> GetPropertiesForComparison()
     {
-        yield return Type;
+        yield return Value;
     }
 }

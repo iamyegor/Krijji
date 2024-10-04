@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace Infrastructure.DapperConfig;
+namespace Infrastructure.Extensions;
 
 public static class StringExtensions
 {

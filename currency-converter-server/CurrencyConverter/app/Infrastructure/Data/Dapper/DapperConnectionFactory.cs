@@ -1,7 +1,7 @@
 using Infrastructure.Utils;
 using Npgsql;
 
-namespace Infrastructure.Data;
+namespace Infrastructure.Data.Dapper;
 
 public class DapperConnectionFactory
 {

@@ -1,9 +1,7 @@
 using Api.Utils;
 using Application;
-using Application.Jobs;
 using Hangfire;
 using Infrastructure;
-using Infrastructure.Hangfire;
 
 namespace Api;
 
