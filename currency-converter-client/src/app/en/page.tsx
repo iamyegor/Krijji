@@ -1,25 +1,70 @@
 import React from "react";
-import decorativeBlueGlow from "@/assets/decorative-blue-glow.png";
-import decorativeMeshBottomRight from "@/assets/decorative-mesh-bottom-right.png";
-import decorativeMeshUpperLeft from "@/assets/decorative-mesh-upper-left.png";
+import decorativeBlueGlow from "@/assets/glows/decorative-blue-glow.png";
+import decorativeMeshBottomRight from "@/assets/meshes/decorative-mesh-bottom-right.png";
+import decorativeMeshUpperLeft from "@/assets/meshes/decorative-mesh-upper-left.png";
 import MoonSvg from "@/assets/moon.svg";
+import bottomFaintGlowImg from "@/assets/glows/faint-glow-bottom.png";
+import leftFaintGlowImg from "@/assets/glows/faint-glow-left.png";
+import faintGlowImg from "@/assets/glows/faint-glow.png";
+import rightFaintGlowImg from "@/assets/glows/faint-glow-right.png";
 import AngleDownSvg from "@/assets/angle-down.svg";
 import americanFlagCircle from "@/assets/american-flag-circle.png";
-import faintGlowImg from "@/assets/faint-glow.png";
 import Image from "next/image";
-import ConversionBox from "@/app/en/ConversionBox";
+import FiatConversionBox from "@/app/en/FiatConversionBox";
+import CryptoConversionBox from "@/app/en/CryptoConversionBox";
+import Currency from "@/app/en/types";
+import { prioritizedCryptoCodes, prioritizedFiatCodes } from "@/app/en/prioritizedCurrencies";
+import useMediaQueries from "@/hooks/useMediaQueries";
 
-function fetchAllExchangeRates() {
-    return [
-        { icon: "USD", code: "USD", name: "United States Dollar", rateToUsd: 1 },
-        { icon: "EUR", code: "EUR", name: "Euro", rateToUsd: 1.1 },
-        { icon: "GBP", code: "GBP", name: "British Pound", rateToUsd: 1.31 },
-        { icon: "JPY", code: "JPY", name: "Japanese Yen", rateToUsd: 0.0067 },
-    ];
+async function fetchConverterData() {
+    const response = await fetch(`${process.env.server}/converter`, {
+        next: {
+            revalidate: 0,
+        },
+    });
+
+    const data = (await response.json()) as {
+        fiat: Currency[];
+        crypto: Currency[];
+        cryptoLastUpdateDate: number;
+        fiatLastUpdateDate: number;
+    };
+
+    const orderedFiat = prioritizeCurrencies(data.fiat, prioritizedFiatCodes);
+    const orderedCrypto = prioritizeCurrencies(data.crypto, prioritizedCryptoCodes);
+
+    return {
+        fiat: orderedFiat,
+        crypto: orderedCrypto,
+        cryptoLastUpdateDate: data.cryptoLastUpdateDate,
+        fiatLastUpdateDate: data.fiatLastUpdateDate,
+    };
 }
 
-export default function CurrencyConverter() {
-    const allExchangeRates = fetchAllExchangeRates();
+function prioritizeCurrencies(currencies: Currency[], prioritizedCodes: string[]): Currency[] {
+    const codePriorityMap = prioritizedCodes.reduce(
+        (acc, code, index) => {
+            acc[code] = index;
+            return acc;
+        },
+        {} as { [key: string]: number },
+    );
+
+    return [...currencies].sort((a, b) => {
+        const priorityA =
+            codePriorityMap[a.code] !== undefined
+                ? codePriorityMap[a.code]
+                : Number.MAX_SAFE_INTEGER;
+        const priorityB =
+            codePriorityMap[b.code] !== undefined
+                ? codePriorityMap[b.code]
+                : Number.MAX_SAFE_INTEGER;
+        return priorityA - priorityB;
+    });
+}
+
+export default async function CurrencyConverterPage() {
+    const { fiat, crypto, cryptoLastUpdateDate, fiatLastUpdateDate } = await fetchConverterData();
 
     return (
         <div className="bg-bg min-h-screen text-txt pb-16 relative">
@@ -42,34 +87,39 @@ export default function CurrencyConverter() {
 
                 <main className="space-y-14">
                     <div className="text-center space-y-4">
-                        <h1 className="text-[44px] font-bold font-head tracking-[-.02em] leading-[1]">
+                        <h1 className="text-[34px] sm:text-[40px] md:text-[44px] font-bold font-head tracking-[-.02em] leading-[1]">
                             <span className="">CURRENCY </span>
                             <span className="text-prim">CONVERTER</span>
                         </h1>
-                        <p className="text-[18px] font-sans">
+                        <p className="text-[16px] sm:text-[18px] font-sans">
                             Effortlessly convert fiat and crypto currencies with our fast and
                             accurate tool.
                         </p>
                     </div>
 
-                    <div className="space-y-10 flex flex-col items-center">
-                        <div className="bg-cbox rounded-[30px] border border-bord p-10 px-12 backdrop-blur-md max-w-[1000px] w-full">
-                            <ConversionBox
+                    <div className="space-y-6 sm:space-y-10 flex flex-col items-center">
+                        <div
+                            className="bg-cbox rounded-[30px] border border-bord p-10 backdrop-blur-md max-w-[1000px] w-full
+                        px-4 xs:px-6 md:px-12"
+                        >
+                            <FiatConversionBox
                                 title="Exchange"
                                 subtitle="Rates"
-                                initialAmount="1000"
-                                fromCurrency="GBP"
-                                toCurrency="EUR"
+                                currencies={fiat}
+                                lastUpdatedDate={fiatLastUpdateDate}
                             />
                         </div>
 
-                        <div className="bg-cbox rounded-[30px] border border-bord p-10 px-12 backdrop-blur-md max-w-[1000px] w-full">
-                            <ConversionBox
+                        <div
+                            className="bg-cbox rounded-[30px] border border-bord p-10 backdrop-blur-md max-w-[1000px] w-full
+                         px-4 xs:px-6 md:px-12"
+                        >
+                            <CryptoConversionBox
                                 title="Crypto"
                                 subtitle="Currencies"
-                                initialAmount="1000"
-                                fromCurrency="GBP"
-                                toCurrency="EUR"
+                                fiatCurrencies={fiat}
+                                cryptoCurrencies={crypto}
+                                lastUpdatedDate={cryptoLastUpdateDate}
                             />
                         </div>
                     </div>
@@ -78,23 +128,30 @@ export default function CurrencyConverter() {
                 <Image
                     src={faintGlowImg}
                     alt="Faint glow"
-                    className="absolute top-[0px] right-0 xl:-right-[150px] w-[300px] h-[300px] xl:w-[400px] xl:h-[400px] pointer-events-none"
-                    draggable={false}
-                />
-                <Image
-                    src={faintGlowImg}
-                    alt="Faint glow"
-                    className="absolute top-[450px] -left-[320px] w-[400px] h-[400px] pointer-events-none"
-                    draggable={false}
-                />
-
-                <Image
-                    src={decorativeBlueGlow}
-                    alt="Decorative blue glow"
-                    className="absolute top-1/4 left-1/4 w-[500px] h-[500px] object-cover pointer-events-none opacity-90"
+                    className="hidden xl:block absolute top-[0px] -0 -right-[150px] w-[400px] h-[400px] pointer-events-none"
                     draggable={false}
                 />
             </div>
+            <Image
+                src={decorativeBlueGlow}
+                alt="Decorative blue glow"
+                className="absolute top-[350px] md:top-[220px] left-[50%] transform -translate-x-1/2 right-[50%] w-[400px] h-[400px] xs:w-[500px] xs:h-[500px] object-cover pointer-events-none opacity-80"
+                draggable={false}
+            />
+
+            <Image
+                src={rightFaintGlowImg}
+                alt="Faint glow"
+                className="block xl:hidden absolute top-[20px] right-0 w-[400px] h-[400px] pointer-events-none"
+                draggable={false}
+            />
+
+            <Image
+                src={leftFaintGlowImg}
+                alt="Faint glow"
+                className="absolute top-[450px] w-[400px] h-[400px] left-0 pointer-events-none"
+                draggable={false}
+            />
             <Image
                 src={decorativeMeshUpperLeft}
                 alt="Decorative mesh"
@@ -107,12 +164,12 @@ export default function CurrencyConverter() {
                 className="absolute bottom-0 right-0 w-[320px] h-auto object-cover pointer-events-none"
                 draggable={false}
             />
-            {/*<Image*/}
-            {/*    src={faintGlowImg}*/}
-            {/*    alt="Faint glow"*/}
-            {/*    className="absolute -bottom-0 -right-0 w-[400px] h-[400px] pointer-events-none"*/}
-            {/*    draggable={false}*/}
-            {/*/>*/}
+            <Image
+                src={bottomFaintGlowImg}
+                alt="Faint glow"
+                className="absolute -bottom-0 -right-0 w-[400px] h-[400px] pointer-events-none"
+                draggable={false}
+            />
         </div>
     );
 }

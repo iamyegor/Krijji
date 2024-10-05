@@ -35,7 +35,7 @@ public static class Startup
         app.UseAuthentication();
         app.UseAuthorization();
 
-        app.UseHttpsRedirection();
+        // app.UseHttpsRedirection();
         app.MapControllers();
 
         app.UseHangfireDashboard();

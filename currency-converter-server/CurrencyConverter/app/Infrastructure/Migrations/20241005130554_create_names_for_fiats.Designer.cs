@@ -3,6 +3,7 @@ using System;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20241005130554_create_names_for_fiats")]
+    partial class create_names_for_fiats
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -125,6 +128,9 @@ namespace Infrastructure.Migrations
 
                             NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b1.Property<int>("id"));
 
+                            b1.Property<int>("FiatId")
+                                .HasColumnType("integer");
+
                             b1.Property<string>("Language")
                                 .IsRequired()
                                 .HasColumnType("text")
@@ -133,19 +139,16 @@ namespace Infrastructure.Migrations
                             b1.Property<string>("Value")
                                 .IsRequired()
                                 .HasColumnType("text")
-                                .HasColumnName("name");
-
-                            b1.Property<int>("fiat_id")
-                                .HasColumnType("integer");
+                                .HasColumnName("value");
 
                             b1.HasKey("id");
 
-                            b1.HasIndex("fiat_id");
+                            b1.HasIndex("FiatId");
 
                             b1.ToTable("fiat_names", (string)null);
 
                             b1.WithOwner()
-                                .HasForeignKey("fiat_id");
+                                .HasForeignKey("FiatId");
                         });
 
                     b.Navigation("Names");

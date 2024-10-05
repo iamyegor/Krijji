@@ -31,6 +31,10 @@ public class GetFiatCurrenciesJob : IJob
             c => c
         );
 
+        List<CurrencyName> names = FiatNames.GetByCode("USD");
+        Fiat usd = new Fiat("USD", names, 1, DateTime.UtcNow);
+        currencies.Add(usd);
+
         foreach (Fiat currency in currencies)
         {
             if (existingCurrencies.TryGetValue(currency.Code, out Fiat? existingCurrency))
@@ -83,7 +87,7 @@ public class GetFiatCurrenciesJob : IJob
             }
 
             List<CurrencyName> names = FiatNames.GetByCode(code);
-            
+
             Fiat currency = new Fiat(code, names, rateToUsd, date);
 
             currencies.Add(currency);

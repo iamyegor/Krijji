@@ -8,8 +8,8 @@ WebApplication app = WebApplication.CreateBuilder(args).ConfigureServices().Conf
 
 using (IServiceScope scope = app.Services.CreateScope())
 {
-    GetCryptoCurrenciesJob cryptoCurrenciesJob = new GetCryptoCurrenciesJob(scope.ServiceProvider);
-    await cryptoCurrenciesJob.Execute();
+    // GetCryptoCurrenciesJob cryptoCurrenciesJob = new GetCryptoCurrenciesJob(scope.ServiceProvider);
+    // await cryptoCurrenciesJob.Execute();
 
     GetFiatCurrenciesJob getFiatCurrenciesJob = new GetFiatCurrenciesJob(scope.ServiceProvider);
     await getFiatCurrenciesJob.Execute();

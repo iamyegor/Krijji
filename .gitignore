@@ -74,6 +74,7 @@ ScaffoldingReadMe.txt
 # React
 # Dependencies
 /node_modules
+**/node_modules
 
 # Production build files
 /dist
