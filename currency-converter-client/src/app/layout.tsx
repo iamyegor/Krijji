@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import React from "react";
-import ThemeSelectProcessor from "@/components/ThemeSelectProcessor";
+import { cookies } from "next/headers";
 
 export const metadata: Metadata = {
     title: "My template",
@@ -13,12 +13,12 @@ export default function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
+    const themeCookie = cookies().get("theme");
+    const theme = themeCookie ? themeCookie.value : "dark";
+
     return (
-        <html lang="en">
-            <body className={`antialiased`}>
-                {children}
-                <ThemeSelectProcessor />
-            </body>
+        <html lang="en" className={theme === "dark" ? "dark" : "light"}>
+            <body className={`antialiased`}>{children}</body>
         </html>
     );
 }

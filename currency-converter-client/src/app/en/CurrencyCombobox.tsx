@@ -86,7 +86,7 @@ export default function CurrencyCombobox({
                         <span className="text-base">{currency.code}</span>
                     </div>
                     {currency === value && (
-                        <Check className="w-5 h-5 text-neutral-300 flex-shrink-0" />
+                        <Check className="w-5 h-5 text-txt-fd flex-shrink-0" />
                     )}
                 </div>
             </CommandItem>
@@ -116,8 +116,8 @@ export default function CurrencyCombobox({
                                 )
                             }
                         />
-                        <span>{value.code}</span>
-                        <ArrowDownSvg className="w-3 h-3 sm:w-4 sm:h-4 fill-white flex-shrink-0" />
+                        <span className="text-txt">{value.code}</span>
+                        <ArrowDownSvg className="w-3 h-3 sm:w-4 sm:h-4 fill-txt flex-shrink-0" />
                     </div>
                 </Button>
             </PopoverTrigger>

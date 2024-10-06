@@ -85,7 +85,7 @@ export default function FiatConversionBox({
                 w-full"
                 >
                     <p className="text-[16px] sm:text-[18px]">Amount</p>
-                    <div className="flex items-center justify-between py-3 px-4 rounded-2xl border border-[#333333] space-x-4">
+                    <div className="flex items-center justify-between py-3 px-4 rounded-2xl border border-input-bord space-x-4">
                         <input
                             className="text-[18px] xs:text-[20px] sm:text-[22px] font-medium outline-none bg-transparent w-full"
                             type="text"
@@ -104,7 +104,7 @@ export default function FiatConversionBox({
                 <button
                     onClick={swapCurrencies}
                     className="rounded-full transition-colors
-                    p-2 lg:p-4 lg:hover:bg-txt/10 mb-3 xs:mb-0 mt-7 lg:mt-9"
+                    p-2 lg:p-4 lg:hover:bg-exch/15 mb-3 xs:mb-0 mt-7 lg:mt-9"
                 >
                     <ExchangeSvg className="w-[30px] h-[30px] fill-exch" />
                 </button>
@@ -113,7 +113,7 @@ export default function FiatConversionBox({
                 w-full"
                 >
                     <p className="text-[16px] sm:text-[18px]">Converted to</p>
-                    <div className="flex items-center justify-between py-3 px-4 rounded-2xl border border-[#333333] space-x-4">
+                    <div className="flex items-center justify-between py-3 px-4 rounded-2xl border border-input-bord space-x-4">
                         <input
                             className="text-[18px] xs:text-[20px] sm:text-[22px] font-medium outline-none bg-transparent w-full"
                             value={convertedAmount}

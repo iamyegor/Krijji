@@ -15,7 +15,7 @@ const Command = React.forwardRef<
     <CommandPrimitive
         ref={ref}
         className={cn(
-            "flex h-full w-full flex-col overflow-hidden rounded-xl bg-white text-neutral-950 dark:bg-neutral-950/80 backdrop-blur-md dark:text-neutral-50",
+            "flex h-full w-full flex-col overflow-hidden rounded-xl bg-popover text-txt backdrop-blur-md",
             className,
         )}
         {...props}
@@ -116,7 +116,7 @@ const CommandItem = React.forwardRef<
     <CommandPrimitive.Item
         ref={ref}
         className={cn(
-            "relative flex cursor-default select-none items-center rounded-md px-2 py-1.5 text-sm outline-none data-[disabled=true]:pointer-events-none data-[selected='true']:bg-neutral-100 data-[selected=true]:text-neutral-900 data-[disabled=true]:opacity-50 dark:data-[selected='true']:bg-neutral-800 dark:data-[selected=true]:text-neutral-50",
+            "relative flex cursor-default select-none items-center text-txt rounded-md px-2 py-1.5 text-sm outline-none data-[disabled=true]:pointer-events-none data-[selected='true']:bg-command-selected data-[selected=true]:text-txt data-[disabled=true]:opacity-50",
             className,
         )}
         {...props}

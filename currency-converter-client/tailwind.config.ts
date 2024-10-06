@@ -28,6 +28,12 @@ const config: Config = {
                 prim: "rgba(var(--primary))",
                 exch: "rgba(var(--exchange))",
                 bord: "rgba(var(--border))",
+                "input-bord": "rgba(var(--input-border))",
+                popover: "rgba(var(--popover))",
+                "command-selected": "rgba(var(--command-selected))",
+            },
+            opacity: {
+                mesh: "var(--mesh-opacity)",
             },
             borderRadius: {
                 lg: "var(--radius)",

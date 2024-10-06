@@ -1,4 +1,4 @@
-import MoonSvg from "@/assets/moon.svg";
+import MoonSvg from "@/assets/themes/moon.svg";
 
 export default function Page() {
     return (

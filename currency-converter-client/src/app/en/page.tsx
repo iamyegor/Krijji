@@ -2,7 +2,7 @@ import React from "react";
 import decorativeBlueGlow from "@/assets/glows/decorative-blue-glow.png";
 import decorativeMeshBottomRight from "@/assets/meshes/decorative-mesh-bottom-right.png";
 import decorativeMeshUpperLeft from "@/assets/meshes/decorative-mesh-upper-left.png";
-import MoonSvg from "@/assets/moon.svg";
+import MoonSvg from "@/assets/themes/moon.svg";
 import bottomFaintGlowImg from "@/assets/glows/faint-glow-bottom.png";
 import leftFaintGlowImg from "@/assets/glows/faint-glow-left.png";
 import faintGlowImg from "@/assets/glows/faint-glow.png";
@@ -14,7 +14,8 @@ import FiatConversionBox from "@/app/en/FiatConversionBox";
 import CryptoConversionBox from "@/app/en/CryptoConversionBox";
 import Currency from "@/app/en/types";
 import { prioritizedCryptoCodes, prioritizedFiatCodes } from "@/app/en/prioritizedCurrencies";
-import useMediaQueries from "@/hooks/useMediaQueries";
+import ThemeSwitcher from "@/app/en/ThemeSwitcher";
+import { cookies } from "next/headers";
 
 async function fetchConverterData() {
     const response = await fetch(`${process.env.server}/converter`, {
@@ -65,23 +66,21 @@ function prioritizeCurrencies(currencies: Currency[], prioritizedCodes: string[]
 
 export default async function CurrencyConverterPage() {
     const { fiat, crypto, cryptoLastUpdateDate, fiatLastUpdateDate } = await fetchConverterData();
+    const selectedTheme = cookies().get("theme");
 
     return (
-        <div className="bg-bg min-h-screen text-txt pb-16 relative">
+        <div className="bg-bg min-h-screen text-txt pb-10 sm:1pb-16 relative">
             <div className="container mx-auto px-4 py-8 relative">
                 <header className="flex justify-between items-center mb-[80px]">
-                    <div className="flex items-center space-x-4">
-                        <MoonSvg className="w-6 h-6" />
-                        <span className="text-[18px]">Dark</span>
-                    </div>
+                    <ThemeSwitcher selectedTheme={selectedTheme?.value ?? null} />
                     <div className="flex items-center space-x-3">
                         <Image
                             src={americanFlagCircle}
                             alt="American flag"
-                            className="w-6 h-6 rounded-full"
+                            className="w-5 h-5 sm:w-6 sm:h-6 rounded-full"
                         />
-                        <span className="text-[18px]">English</span>
-                        <AngleDownSvg className="w-[18px] h-[18px] fill-txt" />
+                        <span className="text-[16px] sm:text-[18px] font-medium">English</span>
+                        <AngleDownSvg className="h-[14px] sm:h-[18px] fill-txt" />
                     </div>
                 </header>
 
@@ -142,26 +141,26 @@ export default async function CurrencyConverterPage() {
             <Image
                 src={rightFaintGlowImg}
                 alt="Faint glow"
-                className="block xl:hidden absolute top-[20px] right-0 w-[400px] h-[400px] pointer-events-none"
+                className="block xl:hidden absolute top-[110px] xs:top-[70px] sm:top-[20px] right-0 w-[400px] h-[400px] pointer-events-none"
                 draggable={false}
             />
 
             <Image
                 src={leftFaintGlowImg}
                 alt="Faint glow"
-                className="absolute top-[450px] w-[400px] h-[400px] left-0 pointer-events-none"
+                className="absolute top-[700px] xs:top-[680px] sm:top-[650px] md:top-[560px] lg:top-[450px] w-[340px] h-[340px] sm:w-[400px] sm:h-[400px] left-0 pointer-events-none"
                 draggable={false}
             />
             <Image
                 src={decorativeMeshUpperLeft}
                 alt="Decorative mesh"
-                className="absolute top-0 left-0 w-[420px] h-auto object-cover pointer-events-none"
+                className="absolute top-0 left-0 w-[200px] xs:w-[250px] lg:w-[340px] xl:w-[400px] h-auto object-cover pointer-events-none opacity-mesh"
                 draggable={false}
             />
             <Image
                 src={decorativeMeshBottomRight}
                 alt="Decorative mesh"
-                className="absolute bottom-0 right-0 w-[320px] h-auto object-cover pointer-events-none"
+                className="absolute bottom-0 right-0 w-[320px] h-auto object-cover pointer-events-none opacity-mesh"
                 draggable={false}
             />
             <Image
