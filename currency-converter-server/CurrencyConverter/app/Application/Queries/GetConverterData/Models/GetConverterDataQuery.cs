@@ -1,5 +1,6 @@
 ﻿using Domain.Crypto;
 using Domain.Fiat;
+using Domain.UpdateTimestamp;
 using Infrastructure.Data;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -40,12 +41,19 @@ public class GetConverterDataQueryHandler : IRequestHandler<GetConverterDataQuer
             })
             .ToList();
 
+        UpdateTimestamp fiatUpdate = _context.UpdateTimestamps.Single(x =>
+            x.Name == UpdateTimestamp.Fiat
+        );
+        UpdateTimestamp cryptoUpdate = _context.UpdateTimestamps.Single(x =>
+            x.Name == UpdateTimestamp.Crypto
+        );
+
         return new ConverterDto
         {
             Fiat = fiatDtos,
             Crypto = cryptoDtos,
-            CryptoLastUpdateDate = DateTime.UtcNow,
-            FiatLastUpdateDate = DateTime.UtcNow
+            CryptoLastUpdateDate = cryptoUpdate.LastUpdate,
+            FiatLastUpdateDate = fiatUpdate.LastUpdate
         };
     }
 }

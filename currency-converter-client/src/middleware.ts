@@ -1,13 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const supportedLocales = ["en", "cn", "fr", "es", "de", "ru"];
+const supportedLocales = ["en", "zh", "fr", "es", "de", "ru"];
 const defaultLocale = "en";
 
 export function middleware(request: NextRequest) {
     const pathname = request.nextUrl.pathname;
 
     if (pathname === "/") {
+        const preferredLanguage = request.cookies.get("preferredLanguage");
+
+        if (preferredLanguage && supportedLocales.includes(preferredLanguage.value)) {
+            return NextResponse.redirect(new URL(`/${preferredLanguage.value}`, request.url));
+        }
+
         const acceptLanguage = request.headers.get("accept-language");
+
         let lang = defaultLocale;
 
         if (acceptLanguage) {

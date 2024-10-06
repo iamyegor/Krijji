@@ -1,10 +1,5 @@
 using Hangfire;
 using Hangfire.Storage.SQLite;
-using Infrastructure.Banks.Bahrain;
-using Infrastructure.Banks.Canada;
-using Infrastructure.Banks.EuropeanUnion;
-using Infrastructure.Banks.Georgia;
-using Infrastructure.Banks.Malaysia;
 using Infrastructure.Data;
 using Infrastructure.Data.Dapper;
 using Infrastructure.Hangfire;
@@ -43,13 +38,13 @@ public static class DependencyInjection
         services.AddHangfireServer();
 
         services.AddScoped<HangfireService>();
-        services.AddTransient<EcbBank>();
-        services.AddTransient<BankOfCanada>();
-        services.AddTransient<EcbParser>();
-        services.AddTransient<BankOfCanadaParser>();
-        services.AddTransient<BankOfBahrain>();
-        services.AddTransient<BankOfGeorgia>();
-        services.AddTransient<BankOfMalaysia>();
+        // services.AddTransient<EcbBank>();
+        // services.AddTransient<BankOfCanada>();
+        // services.AddTransient<BankOfCanadaParser>();
+        // services.AddTransient<BankOfBahrain>();
+        // services.AddTransient<BankOfGeorgia>();
+        // services.AddTransient<BankOfMalaysia>();
+        // services.AddTransient<EcbParser>();
 
         return services;
     }

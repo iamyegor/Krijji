@@ -12,6 +12,8 @@ const config: Config = {
             fontFamily: {
                 sans: ["DM Sans", "sans-serif"],
                 head: ["Syne", "sans-serif"],
+                "head-ru": ["Mulish", "sans-serif"],
+                "sans-ru": ["Inter", "sans-serif"],
             },
             screens: {
                 xs: "420px",

@@ -6,8 +6,8 @@ public class Crypto : Currency.Currency
 
     protected Crypto() { }
 
-    public Crypto(string code, string? name, decimal rateToUsd, DateTime lastUpdated)
-        : base(code, rateToUsd, lastUpdated)
+    public Crypto(string code, string? name, decimal rateToUsd)
+        : base(code, rateToUsd)
     {
         Name = name;
     }

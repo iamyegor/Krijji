@@ -1,32 +1,50 @@
 "use client";
 
+import Currency from "@/app/(currency-converter)/[lang]/(types)/Currency";
 import React, { useEffect, useState } from "react";
+import CurrencyCombobox from "@/app/(currency-converter)/[lang]/(components)/CurrencyCombobox";
 import ExchangeSvg from "@/assets/exchange.svg";
-import Currency from "@/app/en/types";
-import CurrencyCombobox from "@/app/en/CurrencyCombobox";
+import BlockChainSvg from "@/assets/fallbacks/blockchain.svg";
+import { formatDateToLocaleTime } from "@/app/(currency-converter)/[lang]/(utils)/formatDateToLocaleTime";
 
-interface ConversionBoxProps {
-    title: string;
-    subtitle: string;
-    currencies: Currency[];
+interface CryptoConversionBoxProps {
+    fiatCurrencies: Currency[];
+    cryptoCurrencies: Currency[];
     lastUpdatedDate: number;
+    translation: {
+        title: string;
+        subtitle: string;
+        amount: string;
+        convertedTo: string;
+        rateLastUpdated: string;
+    };
+    locale: string;
+    headingFont?: string;
+    sansFont?: string;
 }
 
 const only_digits_commas_dots = /^[\d,.]+$/;
 
-export default function FiatConversionBox({
-    title,
-    subtitle,
-    currencies,
+export default function CryptoConversionBox({
+    translation,
+    fiatCurrencies,
+    cryptoCurrencies,
     lastUpdatedDate,
-}: ConversionBoxProps) {
-    const [fromCurrency, setFromCurrency] = useState<Currency>(currencies[0]);
-    const [toCurrency, setToCurrency] = useState<Currency>(currencies[1]);
+    locale,
+    headingFont = "font-head",
+    sansFont = "font-sans",
+}: CryptoConversionBoxProps) {
+    const [fromCurrency, setFromCurrency] = useState<Currency>(fiatCurrencies[0]);
+    const [toCurrency, setToCurrency] = useState<Currency>(cryptoCurrencies[0]);
     const [amount, setAmount] = useState<string>("1,000");
     const [convertedAmount, setConvertedAmount] = useState<string>("0");
 
-    function getIconPath(icon: string) {
+    function getFiatIconPath(icon: string) {
         return `${process.env.imageServerPath}/fiat/${icon}.svg`;
+    }
+
+    function getCryptoIconPath(icon: string) {
+        return `${process.env.imageServerPath}/crypto/${icon}.png`;
     }
 
     useEffect(() => {
@@ -67,24 +85,33 @@ export default function FiatConversionBox({
         }
     };
 
+    const handleFromCurrencyChange = (currency: Currency) => {
+        setFromCurrency(currency);
+    };
+
+    const handleToCurrencyChange = (currency: Currency) => {
+        setToCurrency(currency);
+    };
+
+    function isFiat(currency: Currency) {
+        return fiatCurrencies.includes(currency);
+    }
+
     return (
         <div className="w-full">
             <div
-                className="flex space-x-2 font-semibold font-head leading-[1] tracking-[-.02em] mb-8
-                justify-center md:justify-start text-[28px] xs:text-[34px]"
+                className={`flex space-x-2 font-semibold leading-[1] tracking-[-.02em] mb-8
+                justify-center md:justify-start text-[28px] xs:text-[34px] ${headingFont}`}
             >
-                <h2 className="text-prim">{title}</h2>
-                <h3 className="">{subtitle}</h3>
+                <h2 className="text-prim">{translation.title}</h2>
+                <h3 className="">{translation.subtitle}</h3>
             </div>
             <div
-                className="flex justify-between items-center 
-            flex-col lg:flex-row space-x-0 lg:space-x-4 mb-16 md:mb-10"
+                className={`flex justify-between items-center 
+            flex-col lg:flex-row space-x-0 lg:space-x-4 mb-16 md:mb-10 ${sansFont}`}
             >
-                <div
-                    className="space-y-2 flex-1 
-                w-full"
-                >
-                    <p className="text-[16px] sm:text-[18px]">Amount</p>
+                <div className="space-y-2 flex-1 w-full">
+                    <p className="text-[16px] sm:text-[18px]">{translation.amount}</p>
                     <div className="flex items-center justify-between py-3 px-4 rounded-2xl border border-input-bord space-x-4">
                         <input
                             className="text-[18px] xs:text-[20px] sm:text-[22px] font-medium outline-none bg-transparent w-full"
@@ -94,10 +121,15 @@ export default function FiatConversionBox({
                         />
                         <CurrencyCombobox
                             value={fromCurrency}
-                            onChange={(currency) => setFromCurrency(currency)}
+                            onChange={handleFromCurrencyChange}
                             label="From"
-                            currencies={currencies}
-                            getIconPath={getIconPath}
+                            currencies={isFiat(fromCurrency) ? fiatCurrencies : cryptoCurrencies}
+                            getIconPath={isFiat(fromCurrency) ? getFiatIconPath : getCryptoIconPath}
+                            fallbackSvg={
+                                isFiat(fromCurrency) ? null : (
+                                    <BlockChainSvg className="fill-txt w-6 h-6" />
+                                )
+                            }
                         />
                     </div>
                 </div>
@@ -108,11 +140,8 @@ export default function FiatConversionBox({
                 >
                     <ExchangeSvg className="w-[30px] h-[30px] fill-exch" />
                 </button>
-                <div
-                    className="space-y-2 flex-1
-                w-full"
-                >
-                    <p className="text-[16px] sm:text-[18px]">Converted to</p>
+                <div className="space-y-2 flex-1 w-full">
+                    <p className="text-[16px] sm:text-[18px]">{translation.convertedTo}</p>
                     <div className="flex items-center justify-between py-3 px-4 rounded-2xl border border-input-bord space-x-4">
                         <input
                             className="text-[18px] xs:text-[20px] sm:text-[22px] font-medium outline-none bg-transparent w-full"
@@ -121,18 +150,22 @@ export default function FiatConversionBox({
                         />
                         <CurrencyCombobox
                             value={toCurrency}
-                            onChange={(currency) => setToCurrency(currency)}
+                            onChange={handleToCurrencyChange}
                             label="To"
-                            currencies={currencies}
-                            getIconPath={getIconPath}
+                            currencies={isFiat(toCurrency) ? fiatCurrencies : cryptoCurrencies}
+                            getIconPath={isFiat(toCurrency) ? getFiatIconPath : getCryptoIconPath}
+                            fallbackSvg={
+                                isFiat(toCurrency) ? null : (
+                                    <BlockChainSvg className="fill-txt w-6 h-6" />
+                                )
+                            }
                         />
                     </div>
                 </div>
             </div>
             <div
-                className="flex items-center justify-between
-            flex-col space-y-2 sm:space-y-3 md:space-y-0 md:flex-row
-            "
+                className={`flex items-center justify-between
+            flex-col space-y-2 sm:space-y-3 md:space-y-0 md:flex-row ${sansFont}`}
             >
                 <p className="text-base xs:text-[20px] font-medium text-center">
                     {`${formatNumber(1000)} ${fromCurrency.code} = ${formatNumber(
@@ -140,7 +173,7 @@ export default function FiatConversionBox({
                     )} ${toCurrency.code}`}
                 </p>
                 <p className="text-[14px] xs:text-base md:text-[18px] text-txt-fd">
-                    Rate last updated at {formatTime(lastUpdatedDate)}
+                    {translation.rateLastUpdated} {formatDateToLocaleTime(lastUpdatedDate, locale)}
                 </p>
             </div>
         </div>

@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using Domain.Crypto;
 using Domain.CryptoName;
+using Domain.UpdateTimestamp;
 using Infrastructure.Data;
 using Infrastructure.Hangfire.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -85,12 +86,30 @@ public class GetCryptoCurrenciesJob : IJob
                 .Select(n => n.Name)
                 .FirstOrDefault();
 
-            Crypto currency = new Crypto(rate.Key, name, rate.Value, DateTime.UtcNow);
+            Crypto currency = new Crypto(rate.Key, name, rate.Value);
 
             _context.Cryptos.Add(currency);
         }
 
+        UpdateLastUpdatedTimestamp();
+
         await _context.SaveChangesAsync();
+    }
+
+    private void UpdateLastUpdatedTimestamp()
+    {
+        UpdateTimestamp? fiatUpdateTimestamp = _context.UpdateTimestamps.SingleOrDefault(x =>
+            x.Name == UpdateTimestamp.Crypto
+        );
+        if (fiatUpdateTimestamp != null)
+        {
+            fiatUpdateTimestamp.Update();
+        }
+        else
+        {
+            fiatUpdateTimestamp = UpdateTimestamp.CreateCrypto();
+            _context.UpdateTimestamps.Add(fiatUpdateTimestamp);
+        }
     }
 
     private async Task FetchCryptoDetails()

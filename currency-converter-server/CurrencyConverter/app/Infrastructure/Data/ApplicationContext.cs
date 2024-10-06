@@ -3,6 +3,7 @@ using Domain.Crypto;
 using Domain.CryptoName;
 using Domain.Currency;
 using Domain.Fiat;
+using Domain.UpdateTimestamp;
 using Infrastructure.Specifications;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -17,6 +18,7 @@ public class ApplicationContext : DbContext
     public DbSet<CryptoDetail> CryptoDetails => Set<CryptoDetail>();
     public DbSet<Crypto> Cryptos => Set<Crypto>();
     public DbSet<Fiat> Fiats => Set<Fiat>();
+    public DbSet<UpdateTimestamp> UpdateTimestamps => Set<UpdateTimestamp>();
 
     public ApplicationContext() { }
 

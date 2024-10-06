@@ -1,6 +1,6 @@
-﻿using System.Globalization;
-using Domain.Currency.ValueObjects;
+﻿using Domain.Currency.ValueObjects;
 using Domain.Fiat;
+using Domain.UpdateTimestamp;
 using Infrastructure.Data;
 using Infrastructure.Hangfire.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -32,7 +32,7 @@ public class GetFiatCurrenciesJob : IJob
         );
 
         List<CurrencyName> names = FiatNames.GetByCode("USD");
-        Fiat usd = new Fiat("USD", names, 1, DateTime.UtcNow);
+        Fiat usd = new Fiat("USD", names, 1);
         currencies.Add(usd);
 
         foreach (Fiat currency in currencies)
@@ -43,9 +43,27 @@ public class GetFiatCurrenciesJob : IJob
                 _context.Fiats.Add(currency);
         }
 
+        UpdateLastUpdatedTimestamp();
+
         await _context.SaveChangesAsync();
 
         Log.Information($"Fetched and updated {currencies.Count} fiat currencies");
+    }
+
+    private void UpdateLastUpdatedTimestamp()
+    {
+        UpdateTimestamp? fiatUpdateTimestamp = _context.UpdateTimestamps.SingleOrDefault(x =>
+            x.Name == UpdateTimestamp.Fiat
+        );
+        if (fiatUpdateTimestamp != null)
+        {
+            fiatUpdateTimestamp.Update();
+        }
+        else
+        {
+            fiatUpdateTimestamp = UpdateTimestamp.CreateFiat();
+            _context.UpdateTimestamps.Add(fiatUpdateTimestamp);
+        }
     }
 
     private async Task<string> FetchExchangeRatesAsync()
@@ -73,22 +91,9 @@ public class GetFiatCurrenciesJob : IJob
             string code = exchangeRate.Code;
             decimal rateToUsd = (decimal)exchangeRate.InverseRate;
 
-            if (
-                !DateTime.TryParseExact(
-                    exchangeRate.Date,
-                    "ddd, d MMM yyyy HH:mm:ss 'GMT'",
-                    CultureInfo.InvariantCulture,
-                    DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeUniversal,
-                    out DateTime date
-                )
-            )
-            {
-                date = DateTime.UtcNow;
-            }
-
             List<CurrencyName> names = FiatNames.GetByCode(code);
 
-            Fiat currency = new Fiat(code, names, rateToUsd, date);
+            Fiat currency = new Fiat(code, names, rateToUsd);
 
             currencies.Add(currency);
         }

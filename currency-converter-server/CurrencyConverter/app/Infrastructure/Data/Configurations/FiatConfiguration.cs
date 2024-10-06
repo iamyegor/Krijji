@@ -26,6 +26,5 @@ public class FiatConfiguration : IEntityTypeConfiguration<Fiat>
         builder.HasIndex(c => c.Code).IsUnique();
 
         builder.Property(c => c.RateToUsd).HasColumnName("rate_to_usd");
-        builder.Property(c => c.LastUpdated).HasColumnName("last_updated");
     }
 }

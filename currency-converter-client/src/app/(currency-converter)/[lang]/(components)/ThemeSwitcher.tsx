@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import MoonSvg from "@/assets/themes/moon.svg";
 import SunSvg from "@/assets/themes/sun.svg";
@@ -9,18 +9,12 @@ import { Button } from "@/components/ui/button";
 export default function ThemeSwitcher({ selectedTheme }: { selectedTheme: string | null }) {
     const [theme, setTheme] = useState(selectedTheme ?? "dark");
 
-    useEffect(() => {
-        const storedTheme = localStorage.getItem("theme") || "dark";
-        setTheme(storedTheme);
-    }, []);
-
-    console.log({ theme });
-
     const toggleTheme = () => {
         const newTheme = theme === "dark" ? "light" : "dark";
         setTheme(newTheme);
-        localStorage.setItem("theme", newTheme);
+        
         document.cookie = `theme=${newTheme}; path=/`;
+        
         document.body.classList.remove("dark", "light");
         document.body.classList.add(newTheme);
     };

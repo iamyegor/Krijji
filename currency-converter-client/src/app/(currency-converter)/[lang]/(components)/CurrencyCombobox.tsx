@@ -9,11 +9,11 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import ArrowDownSvg from "@/assets/angle-down.svg";
-import Currency from "@/app/en/types";
+import Currency from "@/app/(currency-converter)/[lang]/(types)/Currency";
 import React, { ReactNode, useState } from "react";
 import { Check } from "lucide-react";
 import { AutoSizer, List } from "react-virtualized";
-import FallbackImage from "@/app/en/FallbackImage";
+import FallbackImage from "@/app/(currency-converter)/[lang]/(components)/FallbackImage";
 import MoneyBillSvg from "@/assets/fallbacks/money-bill.svg";
 import useMediaQueries from "@/hooks/useMediaQueries";
 

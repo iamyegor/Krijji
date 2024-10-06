@@ -9,8 +9,8 @@ public class Fiat : Currency.Currency
 
     protected Fiat() { }
 
-    public Fiat(string code, List<CurrencyName> names, decimal rateToUsd, DateTime lastUpdated)
-        : base(code, rateToUsd, lastUpdated)
+    public Fiat(string code, List<CurrencyName> names, decimal rateToUsd)
+        : base(code, rateToUsd)
     {
         Precondition.Requires(names.Select(n => n.Language).Distinct().Count() == names.Count);
         Names = names;
