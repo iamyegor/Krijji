@@ -1,13 +1,17 @@
-import React, { ReactNode } from "react";
-import Image from "next/image";
-import { cookies } from "next/headers";
-import faintGlowImg from "@/assets/glows/faint-glow.png";
-import ThemeSwitcher from "@/app/(currency-converter)/[lang]/(components)/ThemeSwitcher";
-import LanguageSwitcher from "@/app/(currency-converter)/[lang]/(components)/LanguageSwitcher";
 import DecorativeGlows from "@/app/(currency-converter)/[lang]/(components)/DecorativeGlows";
+import LanguageSwitcher from "@/app/(currency-converter)/[lang]/(components)/LanguageSwitcher";
+import ThemeSwitcher from "@/app/(currency-converter)/[lang]/(components)/ThemeSwitcher";
 import { getThemeTranslation } from "@/app/(currency-converter)/[lang]/(data)/translations/themeTranslations";
-import LanguageCode from "@/app/(currency-converter)/[lang]/(types)/LanguageCode";
+import LanguageCode, {
+    isValidLanguageCode,
+} from "@/app/(currency-converter)/[lang]/(types)/LanguageCode";
 import Theme from "@/app/(currency-converter)/[lang]/(types)/Theme";
+import faintGlowImg from "@/assets/glows/faint-glow.png";
+import getLangFromRequest from "@/utils/getLangFromRequest";
+import { cookies } from "next/headers";
+import Image from "next/image";
+import { notFound } from "next/navigation";
+import { ReactNode } from "react";
 
 export default function CurrencyConverterLayout({
     children,
@@ -17,8 +21,11 @@ export default function CurrencyConverterLayout({
     params: { lang: string };
 }) {
     const selectedTheme = cookies().get("theme") as { value: Theme };
-    const selectedLanguage = cookies().get("preferredLanguage");
     const themeNames = getThemeTranslation(params.lang as LanguageCode);
+
+    if (!isValidLanguageCode(params.lang)) {
+        notFound();
+    }
 
     return (
         <div className="bg-bg min-h-screen text-txt relative pt-8">
@@ -28,7 +35,7 @@ export default function CurrencyConverterLayout({
                         selectedTheme={selectedTheme?.value ?? null}
                         themeNames={themeNames}
                     />
-                    <LanguageSwitcher selectedLanguage={selectedLanguage?.value ?? null} />
+                    <LanguageSwitcher selectedLanguage={params.lang} />
                 </header>
 
                 <main className="space-y-14">{children}</main>

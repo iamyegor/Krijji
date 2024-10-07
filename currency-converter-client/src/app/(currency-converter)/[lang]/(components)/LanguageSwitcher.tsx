@@ -1,7 +1,11 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import DeFlagImg from "@/assets/flags/de.svg";
+import EnFlagImg from "@/assets/flags/en.svg";
+import EsFlagImg from "@/assets/flags/es.svg";
+import FrFlagImg from "@/assets/flags/fr.svg";
+import RuFlagImg from "@/assets/flags/ru.svg";
+import ZhFlagImg from "@/assets/flags/zh.svg";
 import {
     Select,
     SelectContent,
@@ -9,13 +13,9 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { getCookie, setCookie } from "cookies-next";
-import EnFlagImg from "@/assets/flags/en.svg";
-import ZhFlagImg from "@/assets/flags/zh.svg";
-import EsFlagImg from "@/assets/flags/es.svg";
-import FrFlagImg from "@/assets/flags/fr.svg";
-import RuFlagImg from "@/assets/flags/ru.svg";
-import DeFlagImg from "@/assets/flags/de.svg";
+import { setCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 interface Language {
     code: string;

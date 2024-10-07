@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { pageTranslations } from "@/app/(currency-converter)/[lang]/(data)/translations/pageTranslations";
+import { PageTranslation, pageTranslations } from "@/app/(currency-converter)/[lang]/(data)/translations/pageTranslations";
 import { fetchConverterData } from "@/app/(currency-converter)/[lang]/(utils)/fetchConverterData";
 import FiatConversionBox from "@/app/(currency-converter)/[lang]/(components)/FiatConversionBox";
 import CryptoConversionBox from "@/app/(currency-converter)/[lang]/(components)/CryptoConversionBox";
@@ -11,11 +11,7 @@ export async function generateStaticParams() {
 }
 
 export default async function CurrencyConverterPage({ params }: { params: { lang: string } }) {
-    const translation = pageTranslations.find((t) => t.lang === params.lang);
-
-    if (!translation) {
-        notFound();
-    }
+    const translation: PageTranslation = pageTranslations.find((t) => t.lang === params.lang)!;
 
     const { fiat, crypto, cryptoLastUpdateDate, fiatLastUpdateDate } = await fetchConverterData(
         params.lang,
