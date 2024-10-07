@@ -6,6 +6,8 @@ import {
 import { fetchConverterData } from "@/app/(currency-converter)/[lang]/(utils)/fetchConverterData";
 import FiatConversionBox from "@/app/(currency-converter)/[lang]/(components)/FiatConversionBox";
 import CryptoConversionBox from "@/app/(currency-converter)/[lang]/(components)/CryptoConversionBox";
+import { title } from "process";
+import LanguageSpecificHeading from "./(components)/LanguageSpecificHeading";
 
 export async function generateStaticParams() {
     return pageTranslations.map((t) => ({
@@ -25,15 +27,11 @@ export default async function CurrencyConverterPage({ params }: { params: { lang
             <div className="relative">
                 <main className="space-y-14">
                     <div className="text-center space-y-4 flex flex-col items-center">
-                        <h1
-                            className={`text-[34px] sm:text-[40px] md:text-[44px] flex flex-wrap text-center justify-center 
-                            ${params.lang == "ru" ? "font-head-ru leading-[1.2] font-medium !space-x-3" : "font-head tracking-[-.02em] leading-[1] font-bold "}
-                            ${translation.title.includes(" ") && "space-x-2"}
-                            `}
-                        >
-                            <span className="">{translation.title}</span>
-                            <span className="text-prim">{translation.emphasisedTitle}</span>
-                        </h1>
+                        <LanguageSpecificHeading
+                            lang={params.lang}
+                            title={translation.title}
+                            emphasisedTitle={translation.emphasisedTitle}
+                        />
                         <p
                             className={`text-[16px] sm:text-[18px] max-w-[600px]
                             ${params.lang == "ru" ? "font-sans-ru" : "font-sans"}
