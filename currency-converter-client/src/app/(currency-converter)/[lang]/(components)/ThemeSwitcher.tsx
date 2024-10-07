@@ -55,7 +55,7 @@ export default function ThemeSwitcher({
 
     return (
         <Button
-            className="flex items-center space-x-4 cursor-pointer !rounded-lg overflow-hidden hover:!bg-txt/10 !text-txt"
+            className="flex items-center space-x-2 cursor-pointer !rounded-lg overflow-hidden hover:!bg-txt/10 !text-txt"
             onClick={toggleTheme}
             variant="ghost"
         >
