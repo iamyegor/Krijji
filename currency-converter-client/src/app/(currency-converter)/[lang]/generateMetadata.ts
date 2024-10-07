@@ -1,6 +1,6 @@
+import { getMetaTagsTranslation } from "@/app/(currency-converter)/[lang]/data/translations/metaTagsTranslations";
+import LanguageCode from "@/app/(currency-converter)/[lang]/types/LanguageCode";
 import { Metadata } from "next";
-import LanguageCode from "@/app/(currency-converter)/[lang]/(types)/LanguageCode";
-import { getMetaTagsTranslation } from "@/app/(currency-converter)/[lang]/(data)/translations/metaTagsTranslations";
 
 export function generateMetadata({ params }: { params: { lang: string } }): Metadata {
     const lang = params.lang as LanguageCode;

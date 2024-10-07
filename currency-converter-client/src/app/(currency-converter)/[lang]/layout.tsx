@@ -1,17 +1,17 @@
-import DecorativeGlows from "@/app/(currency-converter)/[lang]/(components)/DecorativeGlows";
-import LanguageSwitcher from "@/app/(currency-converter)/[lang]/(components)/LanguageSwitcher";
-import ThemeSwitcher from "@/app/(currency-converter)/[lang]/(components)/ThemeSwitcher";
-import { getThemeTranslation } from "@/app/(currency-converter)/[lang]/(data)/translations/themeTranslations";
+import { getThemeTranslation } from "@/app/(currency-converter)/[lang]/data/translations/themeTranslations";
 import LanguageCode, {
     isValidLanguageCode,
-} from "@/app/(currency-converter)/[lang]/(types)/LanguageCode";
-import Theme from "@/app/(currency-converter)/[lang]/(types)/Theme";
+} from "@/app/(currency-converter)/[lang]/types/LanguageCode";
+import Theme from "@/app/(currency-converter)/[lang]/types/Theme";
 import faintGlowImg from "@/assets/glows/faint-glow.png";
 import { cookies } from "next/headers";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 import { generateMetadata } from "./generateMetadata";
+import DecorativeGlows from "./components/DecorativeGlows";
+import LanguageSwitcher from "./components/switchers/LanguageSwitcher";
+import ThemeSwitcher from "./components/switchers/ThemeSwitcher";
 
 export { generateMetadata };
 

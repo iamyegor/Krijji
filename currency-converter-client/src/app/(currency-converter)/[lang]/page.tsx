@@ -1,13 +1,11 @@
-import { notFound } from "next/navigation";
 import {
     PageTranslation,
     pageTranslations,
-} from "@/app/(currency-converter)/[lang]/(data)/translations/pageTranslations";
-import { fetchConverterData } from "@/app/(currency-converter)/[lang]/(utils)/fetchConverterData";
-import FiatConversionBox from "@/app/(currency-converter)/[lang]/(components)/FiatConversionBox";
-import CryptoConversionBox from "@/app/(currency-converter)/[lang]/(components)/CryptoConversionBox";
-import { title } from "process";
-import LanguageSpecificHeading from "./(components)/LanguageSpecificHeading";
+} from "@/app/(currency-converter)/[lang]/data/translations/pageTranslations";
+import { fetchConverterData } from "@/app/(currency-converter)/[lang]/utils/fetchConverterData";
+import CryptoConversionBox from "./components/conversion-boxes/CryptoConversionBox";
+import FiatConversionBox from "./components/conversion-boxes/FiatConversionBox";
+import LanguageSpecificHeading from "./components/LanguageSpecificHeading";
 
 export async function generateStaticParams() {
     return pageTranslations.map((t) => ({

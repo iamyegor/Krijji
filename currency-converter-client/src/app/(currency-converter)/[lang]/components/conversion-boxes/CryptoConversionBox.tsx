@@ -1,13 +1,15 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { formatDateToLocaleTime } from "@/app/(currency-converter)/[lang]/components/conversion-boxes/utils/formatDateToLocaleTime";
+import Currency from "@/app/(currency-converter)/[lang]/types/Currency";
 import ExchangeSvg from "@/assets/exchange.svg";
-import Currency from "@/app/(currency-converter)/[lang]/(types)/Currency";
-import CurrencyCombobox from "@/app/(currency-converter)/[lang]/(components)/CurrencyCombobox";
-import { formatDateToLocaleTime } from "@/app/(currency-converter)/[lang]/(utils)/formatDateToLocaleTime";
+import BlockChainSvg from "@/assets/fallbacks/blockchain.svg";
+import React, { useEffect, useState } from "react";
+import CurrencyCombobox from "./components/CurrencyCombobox/CurrencyCombobox";
 
-interface ConversionBoxProps {
-    currencies: Currency[];
+interface CryptoConversionBoxProps {
+    fiatCurrencies: Currency[];
+    cryptoCurrencies: Currency[];
     lastUpdatedDate: number;
     translation: {
         title: string;
@@ -23,21 +25,26 @@ interface ConversionBoxProps {
 
 const only_digits_commas_dots = /^[\d,.]+$/;
 
-export default function FiatConversionBox({
+export default function CryptoConversionBox({
     translation,
-    currencies,
+    fiatCurrencies,
+    cryptoCurrencies,
     lastUpdatedDate,
     locale,
     headingFont = "font-head",
     sansFont = "font-sans",
-}: ConversionBoxProps) {
-    const [fromCurrency, setFromCurrency] = useState<Currency>(currencies[0]);
-    const [toCurrency, setToCurrency] = useState<Currency>(currencies[1]);
+}: CryptoConversionBoxProps) {
+    const [fromCurrency, setFromCurrency] = useState<Currency>(fiatCurrencies[0]);
+    const [toCurrency, setToCurrency] = useState<Currency>(cryptoCurrencies[0]);
     const [amount, setAmount] = useState<string>("1,000");
     const [convertedAmount, setConvertedAmount] = useState<string>("0");
 
-    function getIconPath(icon: string) {
+    function getFiatIconPath(icon: string) {
         return `${process.env.imageServerPath}/fiat/${icon}.svg`;
+    }
+
+    function getCryptoIconPath(icon: string) {
+        return `${process.env.imageServerPath}/crypto/${icon}.png`;
     }
 
     useEffect(() => {
@@ -60,6 +67,13 @@ export default function FiatConversionBox({
         setToCurrency(fromCurrency);
     };
 
+    const formatTime = (timestamp: number) => {
+        return new Date(timestamp).toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+        });
+    };
+
     const formatNumber = (num: string | number): string => {
         return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     };
@@ -70,6 +84,18 @@ export default function FiatConversionBox({
             setAmount(value);
         }
     };
+
+    const handleFromCurrencyChange = (currency: Currency) => {
+        setFromCurrency(currency);
+    };
+
+    const handleToCurrencyChange = (currency: Currency) => {
+        setToCurrency(currency);
+    };
+
+    function isFiat(currency: Currency) {
+        return fiatCurrencies.includes(currency);
+    }
 
     return (
         <div className="w-full">
@@ -84,10 +110,7 @@ export default function FiatConversionBox({
                 className={`flex justify-between items-center 
             flex-col lg:flex-row space-x-0 lg:space-x-4 mb-16 md:mb-10 ${sansFont}`}
             >
-                <div
-                    className="space-y-2 flex-1 
-                w-full"
-                >
+                <div className="space-y-2 flex-1 w-full">
                     <p className="text-[16px] sm:text-[18px]">{translation.amount}</p>
                     <div className="flex items-center justify-between py-3 px-4 rounded-2xl border border-input-bord space-x-4">
                         <input
@@ -98,10 +121,15 @@ export default function FiatConversionBox({
                         />
                         <CurrencyCombobox
                             value={fromCurrency}
-                            onChange={(currency) => setFromCurrency(currency)}
+                            onChange={handleFromCurrencyChange}
                             label="From"
-                            currencies={currencies}
-                            getIconPath={getIconPath}
+                            currencies={isFiat(fromCurrency) ? fiatCurrencies : cryptoCurrencies}
+                            getIconPath={isFiat(fromCurrency) ? getFiatIconPath : getCryptoIconPath}
+                            fallbackSvg={
+                                isFiat(fromCurrency) ? null : (
+                                    <BlockChainSvg className="fill-txt w-6 h-6" />
+                                )
+                            }
                         />
                     </div>
                 </div>
@@ -112,10 +140,7 @@ export default function FiatConversionBox({
                 >
                     <ExchangeSvg className="w-[30px] h-[30px] fill-exch" />
                 </button>
-                <div
-                    className="space-y-2 flex-1
-                w-full"
-                >
+                <div className="space-y-2 flex-1 w-full">
                     <p className="text-[16px] sm:text-[18px]">{translation.convertedTo}</p>
                     <div className="flex items-center justify-between py-3 px-4 rounded-2xl border border-input-bord space-x-4">
                         <input
@@ -125,10 +150,15 @@ export default function FiatConversionBox({
                         />
                         <CurrencyCombobox
                             value={toCurrency}
-                            onChange={(currency) => setToCurrency(currency)}
+                            onChange={handleToCurrencyChange}
                             label="To"
-                            currencies={currencies}
-                            getIconPath={getIconPath}
+                            currencies={isFiat(toCurrency) ? fiatCurrencies : cryptoCurrencies}
+                            getIconPath={isFiat(toCurrency) ? getFiatIconPath : getCryptoIconPath}
+                            fallbackSvg={
+                                isFiat(toCurrency) ? null : (
+                                    <BlockChainSvg className="fill-txt w-6 h-6" />
+                                )
+                            }
                         />
                     </div>
                 </div>

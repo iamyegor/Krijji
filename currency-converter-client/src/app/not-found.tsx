@@ -1,8 +1,8 @@
 import notFoundPageTranslations from "@/data/notFoundPageTranslations";
 import getLangFromRequest from "@/utils/getLangFromRequest";
-import Link from "next/link";
-import LanguageCode from "./(currency-converter)/[lang]/(types)/LanguageCode";
 import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
+import LanguageCode from "./(currency-converter)/[lang]/types/LanguageCode";
 
 export default function NotFound() {
     const lang = getLangFromRequest();
@@ -21,7 +21,7 @@ export default function NotFound() {
                     href="/"
                     className="px-6 py-3 text-sm font-medium text-black bg-white rounded-md hover:bg-gray-200 transition-colors flex items-center space-x-2"
                 >
-                    <ArrowLeft className="w-5 h-5"/>
+                    <ArrowLeft className="w-5 h-5" />
                     <span className="text-base">{translation.buttonText}</span>
                 </Link>
             </div>

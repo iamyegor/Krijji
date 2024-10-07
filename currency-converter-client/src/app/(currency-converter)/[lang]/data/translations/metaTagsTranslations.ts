@@ -1,4 +1,4 @@
-import LanguageCode from "@/app/(currency-converter)/[lang]/(types)/LanguageCode";
+import LanguageCode from "@/app/(currency-converter)/[lang]/types/LanguageCode";
 
 const metaTags: { [lang: string]: MetaTag } = {
     en: {

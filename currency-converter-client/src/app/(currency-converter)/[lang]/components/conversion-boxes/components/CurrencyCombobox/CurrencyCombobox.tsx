@@ -1,3 +1,7 @@
+import Currency from "@/app/(currency-converter)/[lang]/types/Currency";
+import ArrowDownSvg from "@/assets/angle-down.svg";
+import MoneyBillSvg from "@/assets/fallbacks/money-bill.svg";
+import { Button } from "@/components/ui/button";
 import {
     Command,
     CommandEmpty,
@@ -7,15 +11,11 @@ import {
     CommandList,
 } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Button } from "@/components/ui/button";
-import ArrowDownSvg from "@/assets/angle-down.svg";
-import Currency from "@/app/(currency-converter)/[lang]/(types)/Currency";
-import React, { ReactNode, useState } from "react";
-import { Check } from "lucide-react";
-import { AutoSizer, List } from "react-virtualized";
-import FallbackImage from "@/app/(currency-converter)/[lang]/(components)/FallbackImage";
-import MoneyBillSvg from "@/assets/fallbacks/money-bill.svg";
 import useMediaQueries from "@/hooks/useMediaQueries";
+import { Check } from "lucide-react";
+import React, { ReactNode, useState } from "react";
+import { AutoSizer, List } from "react-virtualized";
+import FallbackImage from "./components/FallbackImage";
 
 export default function CurrencyCombobox({
     value,
@@ -85,9 +85,7 @@ export default function CurrencyCombobox({
                         />
                         <span className="text-base">{currency.code}</span>
                     </div>
-                    {currency === value && (
-                        <Check className="w-5 h-5 text-txt/90 flex-shrink-0" />
-                    )}
+                    {currency === value && <Check className="w-5 h-5 text-txt/90 flex-shrink-0" />}
                 </div>
             </CommandItem>
         );

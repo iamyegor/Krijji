@@ -1,14 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { ThemeNames } from "@/app/(currency-converter)/[lang]/data/translations/themeTranslations";
 import { Button } from "@/components/ui/button";
-import { ThemeNames } from "@/app/(currency-converter)/[lang]/(data)/translations/themeTranslations";
+import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
 
 // Assuming these are your SVG components
+import Theme from "@/app/(currency-converter)/[lang]/types/Theme";
 import MoonSvg from "@/assets/themes/moon.svg";
 import SunSvg from "@/assets/themes/sun.svg";
-import Theme from "@/app/(currency-converter)/[lang]/(types)/Theme";
 
 export default function ThemeSwitcher({
     selectedTheme,

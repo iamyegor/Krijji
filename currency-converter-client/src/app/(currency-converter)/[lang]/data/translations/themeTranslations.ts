@@ -1,4 +1,4 @@
-import LanguageCode from "@/app/(currency-converter)/[lang]/(types)/LanguageCode";
+import LanguageCode from "@/app/(currency-converter)/[lang]/types/LanguageCode";
 
 const themeTranslations = {
     en: {
@@ -31,7 +31,6 @@ export type ThemeNames = {
     dark: string;
     light: string;
 };
-
 
 export type ThemeTranslations = {
     [key in LanguageCode]: ThemeNames;
