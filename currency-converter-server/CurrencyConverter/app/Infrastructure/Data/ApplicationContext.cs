@@ -1,7 +1,5 @@
 using System.Reflection;
-using Domain.Crypto;
-using Domain.CryptoName;
-using Domain.Currency;
+using Domain.CryptoDetail;
 using Domain.Fiat;
 using Domain.UpdateTimestamp;
 using Infrastructure.Specifications;
@@ -16,7 +14,7 @@ public class ApplicationContext : DbContext
     private readonly string _connectionString;
     private readonly bool _useLogger;
     public DbSet<CryptoDetail> CryptoDetails => Set<CryptoDetail>();
-    public DbSet<Crypto> Cryptos => Set<Crypto>();
+    public DbSet<Domain.Crypto.Crypto> Cryptos => Set<Domain.Crypto.Crypto>();
     public DbSet<Fiat> Fiats => Set<Fiat>();
     public DbSet<UpdateTimestamp> UpdateTimestamps => Set<UpdateTimestamp>();
 

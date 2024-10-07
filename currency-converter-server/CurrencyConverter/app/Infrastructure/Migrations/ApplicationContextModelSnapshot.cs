@@ -52,7 +52,7 @@ namespace Infrastructure.Migrations
                     b.ToTable("cryptos", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.CryptoName.CryptoDetail", b =>
+            modelBuilder.Entity("Domain.CryptoDetail.CryptoDetail", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -65,11 +65,6 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("code");
-
-                    b.Property<string>("Image")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("image");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -125,6 +120,9 @@ namespace Infrastructure.Migrations
                         .HasColumnName("name");
 
                     b.HasKey("id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("update_timestamps", (string)null);
                 });

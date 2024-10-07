@@ -1,4 +1,4 @@
-﻿namespace Application.Queries.GetConverterData;
+﻿namespace Application.Queries.GetConverterData.Models;
 
 public class CryptoDto
 {

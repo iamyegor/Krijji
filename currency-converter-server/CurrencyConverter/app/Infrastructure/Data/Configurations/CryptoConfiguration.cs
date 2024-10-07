@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Data.Configurations;
 
-public class CryptoConfiguration : IEntityTypeConfiguration<Crypto>
+public class CryptoConfiguration : IEntityTypeConfiguration<Domain.Crypto.Crypto>
 {
-    public void Configure(EntityTypeBuilder<Crypto> builder)
+    public void Configure(EntityTypeBuilder<Domain.Crypto.Crypto> builder)
     {
         builder.ToTable("cryptos").HasKey(c => c.Id);
         builder.Property(c => c.Id).HasColumnName("id").ValueGeneratedOnAdd();

@@ -1,5 +1,6 @@
 using Hangfire;
 using Hangfire.Storage.SQLite;
+using Infrastructure.Crypto;
 using Infrastructure.Data;
 using Infrastructure.Data.Dapper;
 using Infrastructure.Hangfire;
@@ -38,6 +39,7 @@ public static class DependencyInjection
         services.AddHangfireServer();
 
         services.AddScoped<HangfireService>();
+        services.AddTransient<CryptoDetailService>();
         // services.AddTransient<EcbBank>();
         // services.AddTransient<BankOfCanada>();
         // services.AddTransient<BankOfCanadaParser>();

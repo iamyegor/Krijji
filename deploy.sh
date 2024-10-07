@@ -6,7 +6,7 @@ SERVER_IP="REDACTED"
 HELM_COMMAND="helm upgrade currency-converter currency-converter-k8s --values currency-converter-k8s/values.yaml"
 
 bash ${CLIENT_DIR}/deploy.sh "${CLIENT_DIR}" &
-# bash ${SERVER_DIR}/deploy.sh "${SERVER_DIR}" &
+bash ${SERVER_DIR}/deploy.sh "${SERVER_DIR}" &
 
 wait
 

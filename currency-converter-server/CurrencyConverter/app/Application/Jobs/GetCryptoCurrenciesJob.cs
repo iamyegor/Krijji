@@ -1,14 +1,12 @@
-﻿using System.Net;
-using System.Text.RegularExpressions;
-using Domain.Crypto;
-using Domain.CryptoName;
+﻿using Domain.Crypto;
 using Domain.UpdateTimestamp;
+using Hangfire;
+using Infrastructure.Crypto;
 using Infrastructure.Data;
 using Infrastructure.Hangfire.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Linq;
-using Serilog;
 
 namespace Application.Jobs;
 
@@ -17,24 +15,23 @@ public class GetCryptoCurrenciesJob : IJob
     private const string GateApiUrl = "https://api.gateio.ws/api/v4/spot/tickers";
     private const string CoingeckoApiUrl =
         "https://api.coingecko.com/api/v3/simple/price?ids=tether&vs_currencies=usd";
-    private const string CoingeckoMarketsUrl =
-        "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&sparkline=false";
 
     private readonly ApplicationContext _context;
     private readonly HttpClient _httpClient;
+    private readonly CryptoDetailService _cryptoDetailsService;
 
     public GetCryptoCurrenciesJob(IServiceProvider serviceProvider)
     {
         _httpClient = serviceProvider.GetRequiredService<HttpClient>();
         _context = serviceProvider.GetRequiredService<ApplicationContext>();
+        _cryptoDetailsService = serviceProvider.GetRequiredService<CryptoDetailService>();
     }
 
+    [DisableConcurrentExecution(timeoutInSeconds: 0)]
     public async Task Execute()
     {
         if (await _context.CryptoDetails.CountAsync() == 0)
-        {
-            await FetchCryptoDetails();
-        }
+            await _cryptoDetailsService.FetchCryptoDetails();
 
         // First, get the USDT price in USD from CoinGecko
         decimal usdtPriceInUsd = await GetUsdtPriceInUsd();
@@ -112,85 +109,6 @@ public class GetCryptoCurrenciesJob : IJob
             fiatUpdateTimestamp = UpdateTimestamp.CreateCrypto();
             _context.UpdateTimestamps.Add(fiatUpdateTimestamp);
         }
-    }
-
-    private async Task FetchCryptoDetails()
-    {
-        int page = 1;
-        int maxPages = 10;
-        List<CryptoDetail> cryptoDetails = [];
-
-        while (page <= maxPages)
-        {
-            string url = $"{CoingeckoMarketsUrl}&page={page}";
-
-            HttpRequestMessage request = new(HttpMethod.Get, url);
-
-            // Add headers that mimic a browser request
-            request.Headers.Add(
-                "User-Agent",
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
-            );
-            request.Headers.Add("Accept", "application/json");
-            request.Headers.Add("Accept-Language", "en-US,en;q=0.9");
-            request.Headers.Add("Connection", "keep-alive");
-
-            HttpResponseMessage response = await _httpClient.SendAsync(request);
-            response.EnsureSuccessStatusCode();
-
-            if (response.StatusCode == HttpStatusCode.TooManyRequests)
-            {
-                Log.Error(
-                    $"Rate limit reached after fetching {cryptoDetails.Count} crypto details."
-                );
-                break;
-            }
-
-            response.EnsureSuccessStatusCode();
-            string content = await response.Content.ReadAsStringAsync();
-            JArray coins = JArray.Parse(content);
-
-            foreach (JToken coin in coins)
-            {
-                string name = coin["name"]!.ToString();
-                string code = coin["symbol"]!.ToString().ToUpper();
-                string imageUrl = coin["image"]!.ToString();
-
-                if (Regex.IsMatch(code, @"[\\/:*?""<>|]")) // contains forbidden characters
-                    continue;
-
-                // Download the image
-                string fileName = $"{code}.png";
-                string filePath = Path.Combine(
-                    Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-                    "cryptos",
-                    fileName
-                );
-
-                try
-                {
-                    using HttpResponseMessage imageResponse = await _httpClient.GetAsync(imageUrl);
-                    if (imageResponse.IsSuccessStatusCode)
-                    {
-                        using FileStream fs = new FileStream(filePath, FileMode.Create);
-                        await imageResponse.Content.CopyToAsync(fs);
-                    }
-
-                    cryptoDetails.Add(new CryptoDetail(name, code, fileName));
-                }
-                catch
-                { // ignored
-                }
-            }
-
-            if (coins.Count < 250)
-                break;
-
-            page++;
-        }
-
-        _context.CryptoDetails.AddRange(cryptoDetails);
-        await _context.SaveChangesAsync();
     }
 
     private async Task<decimal> GetUsdtPriceInUsd()

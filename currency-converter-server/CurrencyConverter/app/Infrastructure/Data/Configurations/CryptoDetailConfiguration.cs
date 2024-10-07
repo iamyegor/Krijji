@@ -1,4 +1,4 @@
-﻿using Domain.CryptoName;
+﻿using Domain.CryptoDetail;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -13,6 +13,5 @@ public class CryptoDetailConfiguration : IEntityTypeConfiguration<CryptoDetail>
 
         builder.Property(x => x.Name).HasColumnName("name");
         builder.Property(x => x.Code).HasColumnName("code");
-        builder.Property(x => x.Image).HasColumnName("image");
     }
 }

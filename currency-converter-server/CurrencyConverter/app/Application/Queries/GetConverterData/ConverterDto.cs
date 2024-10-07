@@ -1,4 +1,6 @@
-﻿namespace Application.Queries.GetConverterData;
+﻿using Application.Queries.GetConverterData.Models;
+
+namespace Application.Queries.GetConverterData;
 
 public class ConverterDto
 {
