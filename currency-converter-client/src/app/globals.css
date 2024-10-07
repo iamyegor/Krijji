@@ -44,7 +44,7 @@ input[type="number"]::-webkit-inner-spin-button {
     --border: 205, 205, 205;
     --glow: 0, 85, 255, 0.08;
     --input-border: 180, 180, 180;
-    --popover: 255, 255, 255, 0.3;
+    --popover: 255, 255, 255, 0.65;
     --command-selected: 255, 255, 255;
     --mesh-opacity: 0.15;
 }
