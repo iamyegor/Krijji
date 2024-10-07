@@ -61,7 +61,9 @@ export default function LanguageSwitcher({ selectedLanguage = null }: LanguageSw
                         <SelectItem key={lang.code} value={lang.code}>
                             <div className="flex items-center space-x-2">
                                 <lang.flag className="rounded-full flex-shrink-0 w-5 h-5" />
-                                <span className="text-txt">{lang.nativeName}</span>
+                                <span className="text-[16px] sm:text-[18px] text-txt">
+                                    {lang.nativeName}
+                                </span>
                             </div>
                         </SelectItem>
                     ))}
