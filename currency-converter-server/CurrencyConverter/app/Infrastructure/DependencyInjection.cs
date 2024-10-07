@@ -1,13 +1,9 @@
-using Hangfire;
-using Hangfire.Storage.SQLite;
 using Infrastructure.Crypto;
 using Infrastructure.Data;
 using Infrastructure.Data.Dapper;
-using Infrastructure.Hangfire;
 using Infrastructure.Utils;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SQLitePCL;
 
 namespace Infrastructure;
 
@@ -28,17 +24,6 @@ public static class DependencyInjection
             .AddTransient<HttpClient>()
             .AddTransient<ConnectionStringResolver>();
 
-        Batteries.Init();
-        services.AddHangfire(configuration =>
-            configuration
-                .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
-                .UseSimpleAssemblyNameTypeSerializer()
-                .UseRecommendedSerializerSettings()
-                .UseSQLiteStorage("hangfire.db")
-        );
-        services.AddHangfireServer();
-
-        services.AddScoped<HangfireService>();
         services.AddTransient<CryptoDetailService>();
         // services.AddTransient<EcbBank>();
         // services.AddTransient<BankOfCanada>();

@@ -1,12 +1,11 @@
 ﻿using Domain.Crypto;
 using Domain.UpdateTimestamp;
-using Hangfire;
 using Infrastructure.Crypto;
 using Infrastructure.Data;
-using Infrastructure.Hangfire.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Linq;
+using Quartz;
 
 namespace Application.Jobs;
 
@@ -27,8 +26,7 @@ public class GetCryptoCurrenciesJob : IJob
         _cryptoDetailsService = serviceProvider.GetRequiredService<CryptoDetailService>();
     }
 
-    [DisableConcurrentExecution(timeoutInSeconds: 0)]
-    public async Task Execute()
+    public async Task Execute(IJobExecutionContext context)
     {
         if (await _context.CryptoDetails.CountAsync() == 0)
             await _cryptoDetailsService.FetchCryptoDetails();

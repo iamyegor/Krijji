@@ -1,6 +1,6 @@
+using Api.Quartz;
 using Api.Utils;
 using Application;
-using Hangfire;
 using Infrastructure;
 
 namespace Api;
@@ -16,6 +16,7 @@ public static class Startup
         builder
             .Services.AddBaseServices(CorsPolicy)
             .AddInfrastructureServices(builder.Configuration, builder.Environment.IsDevelopment())
+            .AddQuartzService()
             .AddApplication();
 
         return builder.Build();
@@ -37,8 +38,6 @@ public static class Startup
 
         // app.UseHttpsRedirection();
         app.MapControllers();
-
-        app.UseHangfireDashboard();
 
         return app;
     }

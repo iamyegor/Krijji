@@ -2,10 +2,10 @@
 using Domain.Fiat;
 using Domain.UpdateTimestamp;
 using Infrastructure.Data;
-using Infrastructure.Hangfire.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using Quartz;
 using Serilog;
 
 namespace Application.Jobs;
@@ -21,7 +21,7 @@ public class GetFiatCurrenciesJob : IJob
         _context = serviceProvider.GetRequiredService<ApplicationContext>();
     }
 
-    public async Task Execute()
+    public async Task Execute(IJobExecutionContext context)
     {
         string exchangeRatesJson = await FetchExchangeRatesAsync();
         List<Fiat> currencies = ParseExchangeRates(exchangeRatesJson);
