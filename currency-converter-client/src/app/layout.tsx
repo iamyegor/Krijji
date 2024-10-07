@@ -1,9 +1,9 @@
-import type { Metadata } from "next";
-import "./globals.css";
-import React from "react";
-import { cookies } from "next/headers";
-import { Syne, Unbounded, Inter, DM_Sans } from "next/font/google";
 import getLangFromRequest from "@/utils/getLangFromRequest";
+import type { Metadata } from "next";
+import { DM_Sans, Inter, Syne, Unbounded } from "next/font/google";
+import { cookies } from "next/headers";
+import React from "react";
+import "./globals.css";
 
 const unboundedFont = Unbounded({
     subsets: ["cyrillic"],

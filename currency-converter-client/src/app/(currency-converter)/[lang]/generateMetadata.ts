@@ -1,0 +1,38 @@
+import { Metadata } from "next";
+import LanguageCode from "@/app/(currency-converter)/[lang]/(types)/LanguageCode";
+import { getMetaTagsTranslation } from "@/app/(currency-converter)/[lang]/(data)/translations/metaTagsTranslations";
+
+export function generateMetadata({ params }: { params: { lang: string } }): Metadata {
+    const lang = params.lang as LanguageCode;
+    const metaTags = getMetaTagsTranslation(lang);
+
+    return {
+        title: metaTags.title,
+        description: metaTags.description,
+        openGraph: {
+            type: "website",
+            title: metaTags.openGraph.title,
+            description: metaTags.openGraph.description,
+            images: [{ url: metaTags.openGraph.image }],
+            url: metaTags.openGraph.url,
+            locale: metaTags.openGraph.locale,
+        },
+        twitter: {
+            card: "summary_large_image",
+            site: metaTags.twitter.site,
+            title: metaTags.twitter.title,
+            description: metaTags.twitter.description,
+            images: [metaTags.twitter.image],
+        },
+        alternates: {
+            languages: {
+                en: "/en",
+                zh: "/zh",
+                fr: "/fr",
+                es: "/es",
+                de: "/de",
+                ru: "/ru",
+            },
+        },
+    };
+}
