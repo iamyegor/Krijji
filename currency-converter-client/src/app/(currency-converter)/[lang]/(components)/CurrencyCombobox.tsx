@@ -86,7 +86,7 @@ export default function CurrencyCombobox({
                         <span className="text-base">{currency.code}</span>
                     </div>
                     {currency === value && (
-                        <Check className="w-5 h-5 text-txt-fd flex-shrink-0" />
+                        <Check className="w-5 h-5 text-txt/90 flex-shrink-0" />
                     )}
                 </div>
             </CommandItem>

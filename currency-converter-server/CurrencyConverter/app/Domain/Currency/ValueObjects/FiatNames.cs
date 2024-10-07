@@ -1088,12 +1088,21 @@ public class FiatNames
 
         return
         [
-            new CurrencyName(englishName, "English"),
-            new CurrencyName(russianName, "Russian"),
-            new CurrencyName(frenchName, "French"),
-            new CurrencyName(germanName, "German"),
-            new CurrencyName(spanishName, "Spanish"),
-            new CurrencyName(chineseName, "Chinese")
+            new CurrencyName(englishName, "en"),
+            new CurrencyName(russianName, "ru"),
+            new CurrencyName(frenchName, "fr"),
+            new CurrencyName(germanName, "de"),
+            new CurrencyName(spanishName, "es"),
+            new CurrencyName(chineseName, "zh")
         ];
+    }
+
+    public static string GetName(string code, string language)
+    {
+        string? name = GetByCode(code).FirstOrDefault(x => x.Language == language)?.Value;
+        if (name == null)
+            throw new Exception("Incorrect code or language arguments");
+
+        return name;
     }
 }

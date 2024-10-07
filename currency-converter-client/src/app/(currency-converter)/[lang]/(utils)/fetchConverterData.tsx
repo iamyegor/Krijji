@@ -4,8 +4,8 @@ import {
 } from "@/app/(currency-converter)/[lang]/(data)/prioritizedCurrencies";
 import Currency from "@/app/(currency-converter)/[lang]/(types)/Currency";
 
-export async function fetchConverterData() {
-    const response = await fetch(`${process.env.server}/converter`, {
+export async function fetchConverterData(language: string) {
+    const response = await fetch(`${process.env.server}/converter?language=${language}`, {
         next: {
             revalidate: 0,
         },

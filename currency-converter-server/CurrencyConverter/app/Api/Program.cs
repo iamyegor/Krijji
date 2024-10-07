@@ -18,9 +18,6 @@ using (IServiceScope scope = app.Services.CreateScope())
         GetFiatCurrenciesJob getFiatCurrenciesJob = new GetFiatCurrenciesJob(scope.ServiceProvider);
         await getFiatCurrenciesJob.Execute();
     }
-    
-    // GetCryptoCurrenciesJob cryptoCurrenciesJob = new GetCryptoCurrenciesJob(scope.ServiceProvider);
-    // await cryptoCurrenciesJob.Execute();
 
     HangfireService hangfireService = scope.ServiceProvider.GetRequiredService<HangfireService>();
     hangfireService.ScheduleRecurringJob<GetFiatCurrenciesJob>("fiat-currencies", "5 0,12 * * *");

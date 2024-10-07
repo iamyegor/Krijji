@@ -1,20 +1,26 @@
-# Build image
-FROM node:18-alpine AS build
+# Use an official Node.js runtime as the base image
+FROM node:20-alpine
 
+# Set the working directory in the container
 WORKDIR /app
+
+# Install pnpm
 RUN npm install -g pnpm
-COPY package.json ./
 
-RUN pnpm install
+# Copy package.json and pnpm-lock.yaml (if available)
+COPY package.json pnpm-lock.yaml* ./
+
+# Install dependencies
+RUN pnpm install --frozen-lockfile
+
+# Copy the rest of the application code
 COPY . .
-RUN pnpm run build
 
-# Production image
-FROM nginx:alpine
+# Build the Next.js application
+RUN pnpm build
 
-COPY --from=build /app/dist /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Expose the port the app runs on
+EXPOSE 3000
 
-EXPOSE 80
-
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+# Start the application
+ENTRYPOINT ["pnpm", "start"]

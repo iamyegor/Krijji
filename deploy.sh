@@ -1,14 +1,12 @@
 #!/bin/bash
 
-CLIENT_DIR="chatgpt-client"
-SERVER_DIR="chatgpt-server/Chatgpt"
-AUTH_DIR="chatgpt-server/Auth"
+CLIENT_DIR="currency-converter-client"
+SERVER_DIR="currency-converter-server/CurrencyConverter"
 SERVER_IP="REDACTED"
-HELM_COMMAND="helm upgrade netiq netiq-k8s --values netiq-k8s/values.yaml"
+HELM_COMMAND="helm upgrade currency-converter currency-converter-k8s --values currency-converter-k8s/values.yaml"
 
-bash chatgpt-client/deploy-client.sh "${CLIENT_DIR}" &
-bash chatgpt-server/Chatgpt/deploy-server.sh "${SERVER_DIR}" &
-bash chatgpt-server/Auth/deploy-auth.sh "${AUTH_DIR}" &
+bash ${CLIENT_DIR}/deploy.sh "${CLIENT_DIR}" &
+# bash ${SERVER_DIR}/deploy.sh "${SERVER_DIR}" &
 
 wait
 

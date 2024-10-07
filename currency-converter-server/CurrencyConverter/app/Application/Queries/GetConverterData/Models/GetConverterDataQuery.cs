@@ -1,4 +1,5 @@
 ﻿using Domain.Crypto;
+using Domain.Currency.ValueObjects;
 using Domain.Fiat;
 using Domain.UpdateTimestamp;
 using Infrastructure.Data;
@@ -7,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Queries.GetConverterData.Models;
 
-public class GetConverterDataQuery : IRequest<ConverterDto>;
+public record GetConverterDataQuery(string Language) : IRequest<ConverterDto>;
 
 public class GetConverterDataQueryHandler : IRequestHandler<GetConverterDataQuery, ConverterDto>
 {
@@ -27,7 +28,7 @@ public class GetConverterDataQueryHandler : IRequestHandler<GetConverterDataQuer
             .Select(x => new FiatDto
             {
                 Code = x.Code,
-                Name = x.Names.Single(n => n.Language == "English").Value,
+                Name = FiatNames.GetName(x.Code, query.Language),
                 RateToUsd = x.RateToUsd
             })
             .ToList();

@@ -18,9 +18,9 @@ public class ConverterController : ApplicationController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetConverterData()
+    public async Task<IActionResult> GetConverterData([FromQuery] string language)
     {
-        ConverterDto converterDto = await _mediator.Send(new GetConverterDataQuery());
+        ConverterDto converterDto = await _mediator.Send(new GetConverterDataQuery(language));
         return Ok(converterDto);
     }
 }

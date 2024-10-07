@@ -1,4 +1,4 @@
-export const translations = [
+export const pageTranslations = [
     {
         lang: "en",
         title: "CURRENCY ",
@@ -108,4 +108,4 @@ export const translations = [
     },
 ];
 
-export type Translation = (typeof translations)[0];
+export type PageTranslation = (typeof pageTranslations)[0];

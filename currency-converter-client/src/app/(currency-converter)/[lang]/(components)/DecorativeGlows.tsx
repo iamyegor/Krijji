@@ -13,7 +13,7 @@ export default function DecorativeGlows() {
             <Image
                 src={decorativeBlueGlow}
                 alt="Decorative blue glow"
-                className="absolute top-[350px] md:-[280px] lg:top-[220px] left-[50%] transform -translate-x-1/2 right-[50%] w-[400px] h-[400px] xs:w-[500px] xs:h-[500px] object-cover pointer-events-none opacity-80"
+                className="absolute top-[350px] md:-[320px] lg:top-[290px] left-[50%] transform -translate-x-1/2 right-[50%] w-[400px] h-[400px] xs:w-[500px] xs:h-[500px] object-cover pointer-events-none opacity-80"
                 draggable={false}
             />
 
@@ -39,7 +39,7 @@ export default function DecorativeGlows() {
             <Image
                 src={decorativeMeshBottomRight}
                 alt="Decorative mesh"
-                className="absolute bottom-0 right-0 w-[320px] h-auto object-cover pointer-events-none opacity-mesh"
+                className="absolute bottom-0 right-0 w-[240px] md:w-[320px] h-auto object-cover pointer-events-none opacity-mesh"
                 draggable={false}
             />
             <Image

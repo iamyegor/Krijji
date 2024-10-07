@@ -70,6 +70,8 @@ public class GetCryptoCurrenciesJob : IJob
             }
         }
 
+        currencyRates.Add("USDT", usdtPriceInUsd);
+
         List<Crypto> cryptosFromDb = await _context.Cryptos.ToListAsync();
 
         foreach (KeyValuePair<string, decimal> rate in currencyRates)

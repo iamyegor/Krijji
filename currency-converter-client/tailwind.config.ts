@@ -10,10 +10,10 @@ const config: Config = {
     theme: {
         extend: {
             fontFamily: {
-                sans: ["DM Sans", "sans-serif"],
-                head: ["Syne", "sans-serif"],
-                "head-ru": ["Mulish", "sans-serif"],
-                "sans-ru": ["Inter", "sans-serif"],
+                sans: "var(--font-dm-sans)",
+                head: "var(--font-syne)",
+                "head-ru": "var(--font-unbounded)",
+                "sans-ru": "var(--font-inter)",
             },
             screens: {
                 xs: "420px",

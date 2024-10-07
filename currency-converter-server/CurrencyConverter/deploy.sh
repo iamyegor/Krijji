@@ -1,8 +1,8 @@
 #!/bin/bash
 DOCKER_USERNAME="jasonstathamdev"
-DOCKER_REPO="netiq"
-APP_IMAGE="netiq-app"
-MIGRATOR_IMAGE="netiq-migrator"
+DOCKER_REPO="currency-converter"
+APP_IMAGE="backend"
+MIGRATOR_IMAGE="backend-migrator"
 
 TARGET_DIR=$1
 
@@ -48,7 +48,7 @@ build_and_push() {
     fi
 }
 
-build_and_push "${APP_IMAGE}" "-f app/Dockerfile .." &
+build_and_push "${APP_IMAGE}" "app" &
 APP_PROCESS_PID=$!
 
 build_and_push "${MIGRATOR_IMAGE}" "migrator" &

@@ -1,23 +1,57 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { ThemeNames } from "@/app/(currency-converter)/[lang]/(data)/translations/themeTranslations";
+
+// Assuming these are your SVG components
 import MoonSvg from "@/assets/themes/moon.svg";
 import SunSvg from "@/assets/themes/sun.svg";
-import { Button } from "@/components/ui/button";
+import Theme from "@/app/(currency-converter)/[lang]/(types)/Theme";
 
-export default function ThemeSwitcher({ selectedTheme }: { selectedTheme: string | null }) {
-    const [theme, setTheme] = useState(selectedTheme ?? "dark");
+export default function ThemeSwitcher({
+    selectedTheme,
+    themeNames,
+}: {
+    selectedTheme: Theme | null;
+    themeNames: ThemeNames;
+}) {
+    const [theme, setTheme] = useState<Theme>(selectedTheme ?? "dark");
 
     const toggleTheme = () => {
-        const newTheme = theme === "dark" ? "light" : "dark";
+        const newTheme: Theme = theme === "dark" ? "light" : "dark";
         setTheme(newTheme);
-        
+
         document.cookie = `theme=${newTheme}; path=/`;
-        
+
         document.body.classList.remove("dark", "light");
         document.body.classList.add(newTheme);
     };
+
+    function getThemeIcon(currentTheme: Theme) {
+        return currentTheme === "light" ? (
+            <motion.div
+                key="sun"
+                initial={{ y: -20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: -20, opacity: 0 }}
+                transition={{ duration: 0.2 }}
+            >
+                <SunSvg className="w-5 h-5 sm:w-6 sm:h-6" />
+            </motion.div>
+        ) : (
+            <motion.div
+                key="moon"
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: 20, opacity: 0 }}
+                transition={{ duration: 0.2 }}
+            >
+                <MoonSvg className="w-5 h-5 sm:w-6 sm:h-6" />
+            </motion.div>
+        );
+    }
 
     return (
         <Button
@@ -25,30 +59,8 @@ export default function ThemeSwitcher({ selectedTheme }: { selectedTheme: string
             onClick={toggleTheme}
             variant="ghost"
         >
-            <AnimatePresence mode="wait">
-                {theme === "light" ? (
-                    <motion.div
-                        key="sun"
-                        initial={{ y: -20, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        exit={{ y: -20, opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                    >
-                        <SunSvg className="w-5 h-5 sm:w-6 sm:h-6" />
-                    </motion.div>
-                ) : (
-                    <motion.div
-                        key="moon"
-                        initial={{ y: 20, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        exit={{ y: 20, opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                    >
-                        <MoonSvg className="w-5 h-5 sm:w-6 sm:h-6" />
-                    </motion.div>
-                )}
-            </AnimatePresence>
-            <span className="text-[16px] sm:text-[18px] capitalize">{theme}</span>
+            <AnimatePresence mode="wait">{getThemeIcon(theme)}</AnimatePresence>
+            <span className="text-[16px] sm:text-[18px] capitalize">{themeNames[theme]}</span>
         </Button>
     );
 }

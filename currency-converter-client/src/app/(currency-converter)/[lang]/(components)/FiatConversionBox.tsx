@@ -142,7 +142,7 @@ export default function FiatConversionBox({
                         ((1000 * fromCurrency.rateToUsd) / toCurrency.rateToUsd).toFixed(2),
                     )} ${toCurrency.code}`}
                 </p>
-                <p className="text-[14px] xs:text-base md:text-[18px] text-txt-fd">
+                <p className="text-[14px] xs:text-base md:text-[18px] text-txt-fd text-center">
                     {translation.rateLastUpdated} {formatDateToLocaleTime(lastUpdatedDate, locale)}
                 </p>
             </div>

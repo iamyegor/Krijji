@@ -1,9 +1,12 @@
 #!/bin/bash
 DOCKER_USERNAME="jasonstathamdev"
-DOCKER_REPO=""
-APP_IMAGE="client"
-SERVER_IP=""
-HELM_COMMAND="helm upgrade name name-k8s --values name-k8s/values.yaml"
+DOCKER_REPO="currency-converter"
+APP_IMAGE="frontend"
+SERVER_IP="REDACTED"
+
+TARGET_DIR=$1
+
+cd "${TARGET_DIR}" || { echo "Failed to change to directory ${TARGET_DIR}"; exit 1; }
 
 build_and_push() {
     local IMAGE_NAME=$1
@@ -27,12 +30,3 @@ build_and_push() {
 build_and_push "${APP_IMAGE}" "." 
 
 echo -e "\e[32mDocker images built and pushed successfully.\e[0m"
-
-echo -e "\e[32mConnecting to the server to run helm upgrade...\e[0m"
-ssh yegor@"${SERVER_IP}" "${HELM_COMMAND}"
-
-if [ $? -eq 0 ]; then
-    echo -e "\e[32mHelm upgrade completed successfully.\e[0m"
-else
-    echo -e "\e[31mHelm upgrade failed.\e[0m"
-fi
