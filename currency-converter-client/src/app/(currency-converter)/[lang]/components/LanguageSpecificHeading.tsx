@@ -13,7 +13,7 @@ export default function LanguageSpecificHeading({
     function getHeadingClasses() {
         switch (lang) {
             case "ru":
-                return "text-[34px] sm:text-[40px] md:text-[44px] flex flex-wrap text-center justify-center font-head-ru leading-[1.2] font-medium !space-x-3";
+                return "text-[38px] sm:text-[44px] md:text-[50px] flex flex-wrap text-center justify-center font-head-ru leading-[1.2] font-medium !space-x-3";
             case "fr":
                 return "text-[30px] xs:text-[34px] sm:text-[40px] md:text-[44px] font-head tracking-[-.02em] leading-[1] font-bold";
             default:

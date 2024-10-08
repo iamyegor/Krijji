@@ -13,7 +13,7 @@ export default function DecorativeGlows() {
             <Image
                 src={decorativeBlueGlow}
                 alt="Decorative blue glow"
-                className="absolute top-[350px] md:-[320px] lg:top-[290px] left-[50%] transform -translate-x-1/2 right-[50%] w-[400px] h-[400px] xs:w-[500px] xs:h-[500px] object-cover pointer-events-none opacity-80"
+                className="absolute top-[480px] xs:top-[430px] md:top-[420px] lg:top-[380px] left-[50%] transform -translate-x-1/2 right-[50%] w-[400px] h-[400px] xs:w-[500px] xs:h-[500px] object-cover pointer-events-none opacity-80"
                 draggable={false}
             />
 
@@ -21,6 +21,13 @@ export default function DecorativeGlows() {
                 src={rightFaintGlowImg}
                 alt="Faint glow"
                 className="block xl:hidden absolute top-[110px] xs:top-[70px] sm:top-[20px] right-0 w-[400px] h-[400px] pointer-events-none"
+                draggable={false}
+            />
+
+            <Image
+                src={rightFaintGlowImg}
+                alt="Faint glow"
+                className="absolute top-[1400px] md:top-[1300px] lg:top-[900px] right-0 w-[400px] h-[400px] pointer-events-none"
                 draggable={false}
             />
 

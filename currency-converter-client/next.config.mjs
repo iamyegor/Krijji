@@ -12,6 +12,7 @@ const nextConfig = {
                 ? "http://localhost:5026/api"
                 : "http://currency-converter-backend:8080/api",
         domain: "https://krijji.com/",
+        url: "https://krijji.com",
     },
     images: {
         domains: ["localhost"],

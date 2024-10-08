@@ -3,9 +3,11 @@ import {
     pageTranslations,
 } from "@/app/(currency-converter)/[lang]/data/translations/pageTranslations";
 import { fetchConverterData } from "@/app/(currency-converter)/[lang]/utils/fetchConverterData";
+import AboutUs from "./components/AboutUs/AboutUs";
 import CryptoConversionBox from "./components/conversion-boxes/CryptoConversionBox";
 import FiatConversionBox from "./components/conversion-boxes/FiatConversionBox";
 import LanguageSpecificHeading from "./components/LanguageSpecificHeading";
+import LanguageCode from "./types/LanguageCode";
 
 export async function generateStaticParams() {
     return pageTranslations.map((t) => ({
@@ -13,7 +15,11 @@ export async function generateStaticParams() {
     }));
 }
 
-export default async function CurrencyConverterPage({ params }: { params: { lang: string } }) {
+export default async function CurrencyConverterPage({
+    params,
+}: {
+    params: { lang: LanguageCode };
+}) {
     const translation: PageTranslation = pageTranslations.find((t) => t.lang === params.lang)!;
 
     const { fiat, crypto, cryptoLastUpdateDate, fiatLastUpdateDate } = await fetchConverterData(
@@ -23,8 +29,9 @@ export default async function CurrencyConverterPage({ params }: { params: { lang
     return (
         <div className="bg-bg min-h-screen text-txt pb-10 sm:pb-24 lg:pb-32 relative">
             <div className="relative">
-                <main className="space-y-14">
-                    <div className="text-center space-y-4 flex flex-col items-center">
+                <main>
+                    <div className="text-center space-y-4 flex flex-col items-center mb-14">
+                        <p className="text-[80px] font-head leading-[1] font-bold">Krijji</p>
                         <LanguageSpecificHeading
                             lang={params.lang}
                             title={translation.title}
@@ -39,7 +46,7 @@ export default async function CurrencyConverterPage({ params }: { params: { lang
                         </p>
                     </div>
 
-                    <div className="space-y-6 sm:space-y-10 flex flex-col items-center">
+                    <div className="space-y-6 sm:space-y-10 flex flex-col items-center mb-32">
                         <div className="bg-cbox rounded-[30px] border border-bord p-10 backdrop-blur-md max-w-[1000px] w-full px-4 xs:px-6 md:px-12">
                             <FiatConversionBox
                                 translation={{
@@ -71,6 +78,8 @@ export default async function CurrencyConverterPage({ params }: { params: { lang
                             />
                         </div>
                     </div>
+
+                    <AboutUs lang={params.lang} />
                 </main>
             </div>
         </div>

@@ -4,9 +4,9 @@ export default function robots(): MetadataRoute.Robots {
     return {
         rules: {
             userAgent: "*",
-            allow: ["/", "/en"],
+            allow: ["/", "/en", "/es", "/zh", "/de", "/fr", "/ru"],
             disallow: [],
         },
-        sitemap: "https://currency-converter.ru/sitemap.xml",
+        sitemap: `${process.env.url!}/sitemap.xml`,
     };
 }

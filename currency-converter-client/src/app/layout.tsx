@@ -4,6 +4,12 @@ import { DM_Sans, Inter, Syne, Unbounded } from "next/font/google";
 import { cookies } from "next/headers";
 import React from "react";
 import "./globals.css";
+import localFont from "next/font/local";
+
+const nasalizationFont = localFont({
+    src: "./fonts/nasalization.otf",
+    variable: "--font-nasa",
+});
 
 const unboundedFont = Unbounded({
     subsets: ["cyrillic"],
@@ -29,11 +35,6 @@ const dmSansFont = DM_Sans({
     weight: ["400", "500", "600", "700"],
 });
 
-export const metadata: Metadata = {
-    title: "Currency Converter",
-    description: "Effortlessly convert fiat and crypto currencies with our fast and accurate tool.",
-};
-
 export default function RootLayout({
     children,
 }: Readonly<{
@@ -47,7 +48,7 @@ export default function RootLayout({
     return (
         <html
             lang={lang}
-            className={`${unboundedFont.variable} ${syneFont.variable} ${interFont.variable} ${dmSansFont.variable} ${theme === "dark" ? "dark" : "light"}`}
+            className={`${unboundedFont.variable} ${syneFont.variable} ${interFont.variable} ${dmSansFont.variable} ${nasalizationFont.variable} ${theme === "dark" ? "dark" : "light"}`}
         >
             <body className={`antialiased`}>{children}</body>
         </html>

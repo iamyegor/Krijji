@@ -35,7 +35,12 @@ public static class DependencyInjection
                 policy =>
                 {
                     policy
-                        .WithOrigins("http://localhost", "http://localhost:3000")
+                        .WithOrigins(
+                            "http://localhost",
+                            "http://localhost:3000",
+                            "https://help-desk-tg-bot.ru/",
+                            "https://kaijji.com"
+                        )
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials();
@@ -56,18 +61,23 @@ public static class DependencyInjection
 
         if (!ApplicationEnvirontment.IsDevelopment())
         {
-            string outlookPassword = Environment.GetEnvironmentVariable("SERILOG_EMAIL_PASSWORD")!;
-            string subject = "Error in Currency Converter";
+            string errorLogginPassword = Environment.GetEnvironmentVariable(
+                "SERILOG_EMAIL_PASSWORD"
+            )!;
+            string subject = "Krijji Error";
 
             loggerConfiguration.WriteTo.Email(
                 options: new EmailSinkOptions
                 {
-                    From = "astery227@gmail.com",
+                    From = "app.errors.log@gmail.com",
                     To = ["astery227@gmail.com", "yyegor@outlook.com"],
                     Host = "smtp.gmail.com",
                     Port = 587,
                     ConnectionSecurity = SecureSocketOptions.StartTls,
-                    Credentials = new NetworkCredential("astery227@gmail.com", outlookPassword),
+                    Credentials = new NetworkCredential(
+                        "app.errors.log@gmail.com",
+                        errorLogginPassword
+                    ),
                     Subject = new MessageTemplateTextFormatter(subject),
                     Body = new MessageTemplateTextFormatter(
                         "{Timestamp} [{Level}] {Message}{NewLine}{Exception}"

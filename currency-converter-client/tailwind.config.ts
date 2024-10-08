@@ -12,7 +12,7 @@ const config: Config = {
             fontFamily: {
                 sans: "var(--font-dm-sans)",
                 head: "var(--font-syne)",
-                "head-ru": "var(--font-unbounded)",
+                "head-ru": "var(--font-nasa)",
                 "sans-ru": "var(--font-inter)",
             },
             screens: {
