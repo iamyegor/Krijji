@@ -47,8 +47,6 @@ export default async function CurrencyConverterPage({ params }: { params: { lang
                                     ...translation.exchange,
                                 }}
                                 currencies={fiat}
-                                lastUpdatedDate={fiatLastUpdateDate}
-                                locale={params.lang}
                                 sansFont={params.lang == "ru" ? "font-sans-ru" : undefined}
                                 headingFont={
                                     params.lang == "ru" ? "font-head-ru !font-normal" : undefined

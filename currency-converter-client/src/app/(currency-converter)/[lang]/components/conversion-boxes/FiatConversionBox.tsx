@@ -8,15 +8,13 @@ import CurrencyCombobox from "./components/CurrencyCombobox/CurrencyCombobox";
 
 interface ConversionBoxProps {
     currencies: Currency[];
-    lastUpdatedDate: number;
     translation: {
         title: string;
         subtitle: string;
         amount: string;
         convertedTo: string;
-        rateLastUpdated: string;
+        accordingToCb: string;
     };
-    locale: string;
     headingFont?: string;
     sansFont?: string;
 }
@@ -26,8 +24,6 @@ const only_digits_commas_dots = /^[\d,.]+$/;
 export default function FiatConversionBox({
     translation,
     currencies,
-    lastUpdatedDate,
-    locale,
     headingFont = "font-head",
     sansFont = "font-sans",
 }: ConversionBoxProps) {
@@ -135,7 +131,7 @@ export default function FiatConversionBox({
             </div>
             <div
                 className={`flex items-center justify-between
-            flex-col space-y-2 sm:space-y-3 md:space-y-0 md:flex-row ${sansFont}`}
+            flex-col space-y-2 sm:space-y-3 md:space-y-0 lg:flex-row ${sansFont}`}
             >
                 <p className="text-base xs:text-[20px] font-medium text-center">
                     {`${formatNumber(1000)} ${fromCurrency.code} = ${formatNumber(
@@ -143,7 +139,7 @@ export default function FiatConversionBox({
                     )} ${toCurrency.code}`}
                 </p>
                 <p className="text-[14px] xs:text-base md:text-[18px] text-txt-fd text-center">
-                    {translation.rateLastUpdated} {formatDateToLocaleTime(lastUpdatedDate, locale)}
+                    {translation.accordingToCb}
                 </p>
             </div>
         </div>

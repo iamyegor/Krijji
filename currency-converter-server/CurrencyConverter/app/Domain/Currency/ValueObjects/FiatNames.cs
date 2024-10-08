@@ -1101,7 +1101,9 @@ public class FiatNames
     {
         string? name = GetByCode(code).FirstOrDefault(x => x.Language == language)?.Value;
         if (name == null)
-            throw new Exception("Incorrect code or language arguments");
+            throw new Exception(
+                $"Incorrect code or language arguments, Code: {code}, Language: {language}"
+            );
 
         return name;
     }

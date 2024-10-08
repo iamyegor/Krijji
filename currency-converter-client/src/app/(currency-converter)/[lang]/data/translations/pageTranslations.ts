@@ -16,6 +16,7 @@ export const pageTranslations = [
         amount: "Amount",
         convertedTo: "Converted to",
         rateLastUpdated: "Rate last updated at",
+        accordingToCb: "According to the current exchange rate of Central Banks",
     },
     {
         lang: "zh",
@@ -33,6 +34,7 @@ export const pageTranslations = [
         amount: "金额",
         convertedTo: "转换为",
         rateLastUpdated: "汇率最后更新于",
+        accordingToCb: "根据中央银行的当前汇率",
     },
     {
         lang: "fr",
@@ -45,12 +47,13 @@ export const pageTranslations = [
             subtitle: "Taux",
         },
         crypto: {
-            title: "Cryptomonnaies", // Fixed here
+            title: "Cryptomonnaies",
             subtitle: "",
         },
         amount: "Montant",
         convertedTo: "Converti en",
         rateLastUpdated: "Dernière mise à jour du taux à",
+        accordingToCb: "Selon le taux de change actuel des banques centrales",
     },
     {
         lang: "es",
@@ -69,6 +72,7 @@ export const pageTranslations = [
         amount: "Cantidad",
         convertedTo: "Convertido a",
         rateLastUpdated: "Última actualización de la tasa a las",
+        accordingToCb: "Según el tipo de cambio actual de los Bancos Centrales",
     },
     {
         lang: "de",
@@ -87,6 +91,7 @@ export const pageTranslations = [
         amount: "Betrag",
         convertedTo: "Umgerechnet in",
         rateLastUpdated: "Letzte Kursaktualisierung um",
+        accordingToCb: "Gemäß dem aktuellen Wechselkurs der Zentralbanken",
     },
     {
         lang: "ru",
@@ -105,7 +110,9 @@ export const pageTranslations = [
         amount: "Сумма",
         convertedTo: "Конвертировано в",
         rateLastUpdated: "Последнее обновление курса в",
+        accordingToCb: "По текущему обменному курсу Центральных банков",
     },
 ];
 
 export type PageTranslation = (typeof pageTranslations)[0];
+
