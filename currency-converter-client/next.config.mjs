@@ -1,4 +1,9 @@
+import bundleAnalyzer from "@next/bundle-analyzer";
 import svgsConfig from "./svgs.config.js";
+
+const withBundleAnalyzer = bundleAnalyzer({
+    enabled: process.env.ANALYZE === "true",
+});
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -20,4 +25,6 @@ const nextConfig = {
     webpack: svgsConfig,
 };
 
-export default nextConfig;
+const config = withBundleAnalyzer(nextConfig);
+
+export default config;

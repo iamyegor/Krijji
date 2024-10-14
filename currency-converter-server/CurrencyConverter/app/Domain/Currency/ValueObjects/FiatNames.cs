@@ -1097,14 +1097,8 @@ public class FiatNames
         ];
     }
 
-    public static string GetName(string code, string language)
+    public static string? GetName(string code, string language)
     {
-        string? name = GetByCode(code).FirstOrDefault(x => x.Language == language)?.Value;
-        if (name == null)
-            throw new Exception(
-                $"Incorrect code or language arguments, Code: {code}, Language: {language}"
-            );
-
-        return name;
+        return GetByCode(code).FirstOrDefault(x => x.Language == language)?.Value;
     }
 }

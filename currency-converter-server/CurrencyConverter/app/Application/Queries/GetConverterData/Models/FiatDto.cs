@@ -2,7 +2,7 @@
 
 public class FiatDto
 {
-    public string Code { get; set; }
-    public string Name { get; set; }
+    public string Code { get; set; } = null!;
+    public string? Name { get; set; }
     public decimal RateToUsd { get; set; }
 }

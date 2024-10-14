@@ -1,10 +1,9 @@
 import getLangFromRequest from "@/utils/getLangFromRequest";
-import type { Metadata } from "next";
 import { DM_Sans, Inter, Syne, Unbounded } from "next/font/google";
+import localFont from "next/font/local";
 import { cookies } from "next/headers";
 import React from "react";
 import "./globals.css";
-import localFont from "next/font/local";
 
 const nasalizationFont = localFont({
     src: "./fonts/nasalization.otf",
