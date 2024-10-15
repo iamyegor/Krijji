@@ -2,8 +2,7 @@ import { getMetaTagsTranslation } from "@/app/(currency-converter)/[lang]/data/t
 import LanguageCode from "@/app/(currency-converter)/[lang]/types/LanguageCode";
 import { Metadata } from "next";
 
-export function generateMetadata({ params }: { params: { lang: string } }): Metadata {
-    const lang = params.lang as LanguageCode;
+export function createMetadata(lang: LanguageCode): Metadata {
     const metaTags = getMetaTagsTranslation(lang);
 
     return {

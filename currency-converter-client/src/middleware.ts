@@ -10,6 +10,9 @@ export function middleware(request: NextRequest) {
         const preferredLanguage = request.cookies.get("preferredLanguage");
 
         if (preferredLanguage && supportedLocales.includes(preferredLanguage.value)) {
+            if (preferredLanguage.value === "en") {
+                return NextResponse.next();
+            }
             return NextResponse.redirect(new URL(`/${preferredLanguage.value}`, request.url));
         }
 
@@ -26,6 +29,10 @@ export function middleware(request: NextRequest) {
             if (preferredLocale) {
                 lang = preferredLocale;
             }
+        }
+
+        if (lang === "en") {
+            return NextResponse.next();
         }
 
         return NextResponse.redirect(new URL(`/${lang}`, request.url));

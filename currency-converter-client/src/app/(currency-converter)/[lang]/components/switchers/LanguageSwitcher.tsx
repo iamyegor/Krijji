@@ -18,18 +18,19 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 interface Language {
+    route: string;
     code: string;
     nativeName: string;
     flag: React.FC<React.SVGProps<SVGSVGElement>>;
 }
 
 const languages: Language[] = [
-    { code: "en", nativeName: "English", flag: EnFlagImg },
-    { code: "zh", nativeName: "中文", flag: ZhFlagImg },
-    { code: "es", nativeName: "Español", flag: EsFlagImg },
-    { code: "fr", nativeName: "Français", flag: FrFlagImg },
-    { code: "ru", nativeName: "Русский", flag: RuFlagImg },
-    { code: "de", nativeName: "Deutsch", flag: DeFlagImg },
+    { route: "/", code: "en", nativeName: "English", flag: EnFlagImg },
+    { route: "/zh", code: "zh", nativeName: "中文", flag: ZhFlagImg },
+    { route: "/es", code: "es", nativeName: "Español", flag: EsFlagImg },
+    { route: "/fr", code: "fr", nativeName: "Français", flag: FrFlagImg },
+    { route: "/ru", code: "ru", nativeName: "Русский", flag: RuFlagImg },
+    { route: "/de", code: "de", nativeName: "Deutsch", flag: DeFlagImg },
 ];
 
 interface LanguageSwitcherProps {
@@ -45,9 +46,11 @@ export default function LanguageSwitcher({ selectedLanguage = null }: LanguageSw
     }, [currentLanguage]);
 
     const handleLanguageChange = (languageCode: string) => {
+        const route: string = languages.find((lang) => lang.code === languageCode)?.route!;
+
         setCurrentLanguage(languageCode);
         setCookie("preferredLanguage", languageCode, { maxAge: 30 * 24 * 60 * 60 });
-        router.push(`/${languageCode}`);
+        router.push(route);
     };
 
     return (

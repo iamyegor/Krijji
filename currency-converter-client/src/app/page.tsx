@@ -1,3 +1,8 @@
+import CurrencyConverter from "@/components/CurrencyConverter/CurrencyConverter";
+import { createMetadata } from "./(currency-converter)/[lang]/generateMetadata";
+
+export const generateMetadata = () => createMetadata("en");
+
 export default function Home() {
-    return <div className=""></div>;
+    return <CurrencyConverter lang="en" />;
 }

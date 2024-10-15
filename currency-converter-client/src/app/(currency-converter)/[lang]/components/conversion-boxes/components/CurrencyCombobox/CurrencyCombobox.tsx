@@ -16,6 +16,7 @@ import { Check } from "lucide-react";
 import React, { ReactNode, useState } from "react";
 import { AutoSizer, List } from "react-virtualized";
 import FallbackImage from "./components/FallbackImage";
+import useCurrencyComboboxTranslation from "./hooks/useCurrencyComboboxTranslation";
 
 export default function CurrencyCombobox({
     value,
@@ -35,6 +36,7 @@ export default function CurrencyCombobox({
     const { isMdScreen } = useMediaQueries();
     const [open, setOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
+    const t = useCurrencyComboboxTranslation();
 
     const filteredCurrencies = currencies.filter(
         (currency) =>
@@ -122,11 +124,11 @@ export default function CurrencyCombobox({
             <PopoverContent className="w-[200px] p-0" align={isMdScreen ? "center" : "end"}>
                 <Command>
                     <CommandInput
-                        placeholder="Search currency..."
+                        placeholder={t.searchPlaceholder}
                         value={searchTerm}
                         onValueChange={setSearchTerm}
                     />
-                    <CommandEmpty>No currency found.</CommandEmpty>
+                    <CommandEmpty>{t.noCurrenciesFound}</CommandEmpty>
                     <CommandGroup>
                         <CommandList>
                             <AutoSizer disableHeight>

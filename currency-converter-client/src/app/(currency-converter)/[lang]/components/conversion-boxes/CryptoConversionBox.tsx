@@ -59,7 +59,9 @@ export default function CryptoConversionBox({
         if (isNaN(result)) {
             return;
         }
-        setConvertedAmount(formatNumber(result.toFixed(2)));
+
+        const fixedSymbols = isFiat(toCurrency) ? 2 : 10;
+        setConvertedAmount(formatNumber(result.toFixed(fixedSymbols)));
     };
 
     const swapCurrencies = () => {
@@ -67,15 +69,10 @@ export default function CryptoConversionBox({
         setToCurrency(fromCurrency);
     };
 
-    const formatTime = (timestamp: number) => {
-        return new Date(timestamp).toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-        });
-    };
-
     const formatNumber = (num: string | number): string => {
-        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        const parts = num.toString().split(".");
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return parts.join(".");
     };
 
     const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -168,8 +165,10 @@ export default function CryptoConversionBox({
             flex-col space-y-2 sm:space-y-3 md:space-y-0 md:flex-row ${sansFont}`}
             >
                 <p className="text-base xs:text-[20px] font-medium text-center">
-                    {`${formatNumber(1000)} ${fromCurrency.code} = ${formatNumber(
-                        ((1000 * fromCurrency.rateToUsd) / toCurrency.rateToUsd).toFixed(2),
+                    {`${formatNumber(1)} ${fromCurrency.code} = ${formatNumber(
+                        ((1 * fromCurrency.rateToUsd) / toCurrency.rateToUsd).toFixed(
+                            isFiat(toCurrency) ? 2 : 10,
+                        ),
                     )} ${toCurrency.code}`}
                 </p>
                 <p className="text-[14px] xs:text-base md:text-[18px] text-txt-fd text-center">

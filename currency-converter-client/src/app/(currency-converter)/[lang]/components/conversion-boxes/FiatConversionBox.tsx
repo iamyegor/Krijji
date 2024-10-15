@@ -1,6 +1,5 @@
 "use client";
 
-import { formatDateToLocaleTime } from "@/app/(currency-converter)/[lang]/components/conversion-boxes/utils/formatDateToLocaleTime";
 import Currency from "@/app/(currency-converter)/[lang]/types/Currency";
 import ExchangeSvg from "@/assets/exchange.svg";
 import React, { useEffect, useState } from "react";
@@ -134,8 +133,8 @@ export default function FiatConversionBox({
             flex-col space-y-2 sm:space-y-3 md:space-y-0 lg:flex-row ${sansFont}`}
             >
                 <p className="text-base xs:text-[20px] font-medium text-center">
-                    {`${formatNumber(1000)} ${fromCurrency.code} = ${formatNumber(
-                        ((1000 * fromCurrency.rateToUsd) / toCurrency.rateToUsd).toFixed(2),
+                    {`${formatNumber(1)} ${fromCurrency.code} = ${formatNumber(
+                        ((1 * fromCurrency.rateToUsd) / toCurrency.rateToUsd).toFixed(2),
                     )} ${toCurrency.code}`}
                 </p>
                 <p className="text-[14px] xs:text-base md:text-[18px] text-txt-fd text-center">

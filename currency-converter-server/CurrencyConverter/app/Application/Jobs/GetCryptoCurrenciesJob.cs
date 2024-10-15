@@ -31,14 +31,21 @@ public class GetCryptoCurrenciesJob : IJob
         if (await _context.CryptoDetails.CountAsync() == 0)
             await _cryptoDetailsService.FetchCryptoDetails();
 
-        // First, get the USDT price in USD from CoinGecko
         decimal usdtPriceInUsd = await GetUsdtPriceInUsd();
         if (usdtPriceInUsd == 0)
             throw new Exception("Failed to fetch USDT price in USD from CoinGecko");
 
-        // Then, fetch the crypto rates from Gate.io
         HttpResponseMessage response = await _httpClient.GetAsync(GateApiUrl);
-        response.EnsureSuccessStatusCode();
+        try
+        {
+            response.EnsureSuccessStatusCode();
+        }
+        catch (HttpRequestException ex)
+            when (ex.Message.Contains("Resource temporarily unavailable"))
+        {
+            return;
+        }
+
         string content = await response.Content.ReadAsStringAsync();
 
         JArray tickers = JArray.Parse(content);
