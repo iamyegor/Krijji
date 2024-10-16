@@ -3,8 +3,8 @@ import { DM_Sans, Inter, Syne, Unbounded } from "next/font/google";
 import localFont from "next/font/local";
 import { cookies } from "next/headers";
 import React from "react";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
-import GoogleAnalytics from "@/components/GoogleAnalytics";
 
 const nasalizationFont = localFont({
     src: "./fonts/nasalization.otf",
@@ -50,8 +50,8 @@ export default function RootLayout({
             lang={lang}
             className={`${unboundedFont.variable} ${syneFont.variable} ${interFont.variable} ${dmSansFont.variable} ${nasalizationFont.variable} ${theme === "dark" ? "dark" : "light"}`}
         >
-            <GoogleAnalytics />
             <body className={`antialiased`}>{children}</body>
+            <GoogleAnalytics gaId={process.env.gaId!} />
         </html>
     );
 }

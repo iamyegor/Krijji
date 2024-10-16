@@ -31,9 +31,9 @@ public class GetCryptoCurrenciesJob : IJob
         if (await _context.CryptoDetails.CountAsync() == 0)
             await _cryptoDetailsService.FetchCryptoDetails();
 
-        decimal usdtPriceInUsd = await GetUsdtPriceInUsd();
-        if (usdtPriceInUsd == 0)
-            throw new Exception("Failed to fetch USDT price in USD from CoinGecko");
+        decimal? usdtPriceInUsd = await GetUsdtPriceInUsd();
+        if (usdtPriceInUsd == null)
+            return;
 
         HttpResponseMessage response = await _httpClient.GetAsync(GateApiUrl);
         try
@@ -67,12 +67,12 @@ public class GetCryptoCurrenciesJob : IJob
             if (!currencyRates.ContainsKey(baseCurrency))
             {
                 // Convert the rate from USDT to USD
-                decimal rateInUsd = lastPrice * usdtPriceInUsd;
+                decimal rateInUsd = lastPrice * usdtPriceInUsd.Value;
                 currencyRates[baseCurrency] = rateInUsd;
             }
         }
 
-        currencyRates.Add("USDT", usdtPriceInUsd);
+        currencyRates.Add("USDT", usdtPriceInUsd.Value);
 
         List<Crypto> cryptosFromDb = await _context.Cryptos.ToListAsync();
 
@@ -116,9 +116,19 @@ public class GetCryptoCurrenciesJob : IJob
         }
     }
 
-    private async Task<decimal> GetUsdtPriceInUsd()
+    private async Task<decimal?> GetUsdtPriceInUsd()
     {
-        HttpResponseMessage response = await _httpClient.GetAsync(CoingeckoApiUrl);
+        HttpResponseMessage response;
+        try
+        {
+            response = await _httpClient.GetAsync(CoingeckoApiUrl);
+        }
+        catch (HttpRequestException ex)
+            when (ex.Message.Contains("Resource temporarily unavailable"))
+        {
+            return null;
+        }
+
         response.EnsureSuccessStatusCode();
         string content = await response.Content.ReadAsStringAsync();
 
