@@ -4,7 +4,7 @@ export const pageTranslations = [
         title: "CURRENCY ",
         emphasisedTitle: "CONVERTER",
         description:
-            "Effortlessly convert fiat and crypto currencies with our fast and accurate tool.",
+            "Effortlessly convert fiat and cryptocurrencies with our fast and accurate tool.",
         exchange: {
             title: "Exchange",
             subtitle: "Rates",

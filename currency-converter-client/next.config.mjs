@@ -18,7 +18,7 @@ const nextConfig = {
                 : "http://currency-converter-backend:8080/api",
         domain: "https://krijji.com/",
         url: "https://krijji.com",
-        gaId: "G-H2CEFWDM8L",
+        gaId: "G-FDZFL436SJ",
     },
     images: {
         domains: ["localhost"],
