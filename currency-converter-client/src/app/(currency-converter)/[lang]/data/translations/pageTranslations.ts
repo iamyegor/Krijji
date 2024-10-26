@@ -115,4 +115,3 @@ export const pageTranslations = [
 ];
 
 export type PageTranslation = (typeof pageTranslations)[0];
-

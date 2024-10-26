@@ -21,7 +21,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 
 export default async function CurrencyConverter({ lang }: { lang: LanguageCode }) {
-    const translation: PageTranslation = pageTranslations.find((t) => (t.lang = lang))!;
+    const translation: PageTranslation = pageTranslations.find((t) => t.lang == lang)!;
     const selectedTheme = cookies().get("theme") as { value: Theme | null };
     const themeNames = getThemeTranslation(lang as LanguageCode);
 
