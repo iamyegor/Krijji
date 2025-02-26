@@ -23,7 +23,7 @@ const config: Config = {
                 xl: "1280px",
             },
             colors: {
-                bg: "rgba(var(--bg))",
+                bg: "light-dark(rgba(241, 241, 241), rgba(17, 17, 17))",
                 cbox: "rgba(var(--conversion-box))",
                 txt: "rgba(var(--txt-default))",
                 "txt-fd": "rgba(var(--txt-faded))",

@@ -56,36 +56,10 @@ public static class DependencyInjection
             .MinimumLevel.Information()
             .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
             .Enrich.FromLogContext()
-            .WriteTo.Console()
-            .WriteTo.File(path: "/logs/log-.log", rollingInterval: RollingInterval.Day);
-
-        if (!ApplicationEnvirontment.IsDevelopment())
-        {
-            string errorLogginPassword = Environment.GetEnvironmentVariable(
-                "SERILOG_EMAIL_PASSWORD"
-            )!;
-            string subject = "Krijji Error";
-
-            loggerConfiguration.WriteTo.Email(
-                options: new EmailSinkOptions
-                {
-                    From = "app.errors.log@gmail.com",
-                    To = ["astery227@gmail.com", "yyegor@outlook.com"],
-                    Host = "smtp.gmail.com",
-                    Port = 587,
-                    ConnectionSecurity = SecureSocketOptions.StartTls,
-                    Credentials = new NetworkCredential(
-                        "app.errors.log@gmail.com",
-                        errorLogginPassword
-                    ),
-                    Subject = new MessageTemplateTextFormatter(subject),
-                    Body = new MessageTemplateTextFormatter(
-                        "{Timestamp} [{Level}] {Message}{NewLine}{Exception}"
-                    )
-                },
-                restrictedToMinimumLevel: LogEventLevel.Error
+            .WriteTo.Async(writeTo => writeTo.Console())
+            .WriteTo.Async(writeTo =>
+                writeTo.File(path: "/logs/log-.log", rollingInterval: RollingInterval.Day)
             );
-        }
 
         Log.Logger = loggerConfiguration.CreateLogger();
 
