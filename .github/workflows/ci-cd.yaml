@@ -17,16 +17,16 @@ jobs:
       matrix:
         include:
           - name: frontend
-            context: ./krijji-client
-            dockerfile: ./krijji-client/Dockerfile
+            context: krijji-client
+            dockerfile: krijji-client/Dockerfile
             tag: frontend
           - name: backend
-            context: ./krijji-server/Krijji/app
-            dockerfile: ./krijji-server/Krijji/app/Dockerfile
+            context: krijji-server/Krijji/app
+            dockerfile: krijji-server/Krijji/app/Dockerfile
             tag: backend
           - name: backend-migrator
-            context: ./krijji-server/Krijji
-            dockerfile: ./krijji-server/Krijji/migrator/Dockerfile
+            context: krijji-server/Krijji
+            dockerfile: krijji-server/Krijji/migrator/Dockerfile
             tag: backend-migrator
 
     steps:
@@ -45,8 +45,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: ./${{ matrix.context }}
-          file: ./${{ matrix.context }}/Dockerfile
+          context: ${{ matrix.context }}
+          file: ${{ matrix.dockerfile }}
           push: true
           tags: ${{ env.CR_REPO }}:${{ matrix.tag }}
           cache-from: type=registry,ref=${{ env.CR_REPO }}:${{ matrix.tag }}-cache
