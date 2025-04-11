@@ -1,6 +1,6 @@
 # Global Currency Converter
 
-[![CI/CD Status](https://github.com/iamyegor/YOUR_REPO_NAME/actions/workflows/YOUR_WORKFLOW.yaml/badge.svg)](https://github.com/iamyegor/YOUR_REPO_NAME/actions/workflows/YOUR_WORKFLOW.yaml)
+[![CI/CD Status](https://github.com/iamyegor/krijji/actions/workflows/ci-cd.yaml/badge.svg)](https://github.com/iamyegor/krijji/actions/workflows/ci-cd.yaml)
 [![.NET Core](https://img.shields.io/badge/.NET-Core-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
 [![React](https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=black)](https://reactjs.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
