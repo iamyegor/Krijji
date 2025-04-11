@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
+// ReSharper disable once CheckNamespace
 namespace Infrastructure.Data;
 
 public class ApplicationContext : DbContext

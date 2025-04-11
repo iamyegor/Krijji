@@ -38,7 +38,7 @@ public static class DependencyInjection
                         .WithOrigins(
                             "http://localhost",
                             "http://localhost:3000",
-                            "https://krijji.com"
+                            "https://krijji.org"
                         )
                         .AllowAnyHeader()
                         .AllowAnyMethod()
