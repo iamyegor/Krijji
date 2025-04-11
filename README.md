@@ -1,4 +1,4 @@
-# Global Currency Converter
+# Krijji Currency Converter
 
 [![CI/CD Status](https://github.com/iamyegor/krijji/actions/workflows/ci-cd.yaml/badge.svg)](https://github.com/iamyegor/krijji/actions/workflows/ci-cd.yaml)
 [![.NET Core](https://img.shields.io/badge/.NET-Core-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
