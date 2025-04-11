@@ -11,13 +11,12 @@ const nextConfig = {
         imageServerPath:
             process.env.NODE_ENV === "development"
                 ? "http://localhost:1844/images"
-                : "https://help-desk-tg-bot.ru/images",
+                : "https://krijji.org/images",
         server:
             process.env.NODE_ENV === "development"
                 ? "http://localhost:5026/api"
                 : "http://currency-converter-backend:8080/api",
-        domain: "https://krijji.com/",
-        url: "https://krijji.com",
+        url: "https://krijji.org",
         gaId: "G-FDZFL436SJ",
     },
     images: {
