@@ -38,7 +38,7 @@ function prioritizeCurrencies(currencies: Currency[], prioritizedCodes: string[]
         {} as { [key: string]: number },
     );
 
-    return [...currencies].sort((a, b) => {
+    return currencies.sort((a, b) => {
         const priorityA =
             codePriorityMap[a.code] !== undefined
                 ? codePriorityMap[a.code]

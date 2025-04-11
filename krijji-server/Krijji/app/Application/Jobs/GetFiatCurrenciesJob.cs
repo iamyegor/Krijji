@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Quartz;
 using Serilog;
+using XResults;
 
 namespace Application.Jobs;
 
@@ -91,9 +92,11 @@ public class GetFiatCurrenciesJob : IJob
             string code = exchangeRate.Code;
             decimal rateToUsd = (decimal)exchangeRate.InverseRate;
 
-            List<CurrencyName> names = FiatNames.GetByCode(code);
+            Result<List<CurrencyName>> currencyNamesOrFailure = FiatNames.GetByCode(code);
+            if (currencyNamesOrFailure.IsFailure)
+                continue;
 
-            Fiat currency = new Fiat(code, names, rateToUsd);
+            Fiat currency = new(code, currencyNamesOrFailure.Value, rateToUsd);
 
             currencies.Add(currency);
         }

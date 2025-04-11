@@ -1,4 +1,5 @@
 ﻿using Domain.Fiat;
+using XResults;
 
 namespace Domain.Currency.ValueObjects;
 
@@ -177,7 +178,7 @@ public class FiatNames
         { "YER", "Yemeni Rial" },
         { "ZAR", "South African Rand" },
         { "ZMW", "Zambian Kwacha" },
-        { "ZWL", "Zimbabwean Dollar" }
+        { "ZWL", "Zimbabwean Dollar" },
     };
 
     private static readonly Dictionary<string, string> NamesRussian = new Dictionary<
@@ -353,7 +354,7 @@ public class FiatNames
         { "YER", "Йеменский риал" },
         { "ZAR", "Южноафриканский ранд" },
         { "ZMW", "Замбийская квача" },
-        { "ZWL", "Зимбабвийский доллар" }
+        { "ZWL", "Зимбабвийский доллар" },
     };
 
     private static readonly Dictionary<string, string> NamesFrench = new Dictionary<
@@ -529,7 +530,7 @@ public class FiatNames
         { "YER", "Rial yéménite" },
         { "ZAR", "Rand sud-africain" },
         { "ZMW", "Kwacha zambien" },
-        { "ZWL", "Dollar zimbabwéen" }
+        { "ZWL", "Dollar zimbabwéen" },
     };
 
     private static readonly Dictionary<string, string> NamesGerman = new Dictionary<
@@ -705,7 +706,7 @@ public class FiatNames
         { "YER", "Jemen-Rial" },
         { "ZAR", "Südafrikanischer Rand" },
         { "ZMW", "Sambia-Kwacha" },
-        { "ZWL", "Simbabwe-Dollar" }
+        { "ZWL", "Simbabwe-Dollar" },
     };
 
     private static readonly Dictionary<string, string> NamesSpanish = new Dictionary<
@@ -881,7 +882,7 @@ public class FiatNames
         { "YER", "Rial yemení" },
         { "ZAR", "Rand sudafricano" },
         { "ZMW", "Kwacha zambiano" },
-        { "ZWL", "Dólar zimbabuense" }
+        { "ZWL", "Dólar zimbabuense" },
     };
 
     private static readonly Dictionary<string, string> NamesChinese = new Dictionary<
@@ -1057,48 +1058,51 @@ public class FiatNames
         { "YER", "也门里亚尔" },
         { "ZAR", "南非兰特" },
         { "ZMW", "赞比亚克瓦查" },
-        { "ZWL", "津巴布韦元" }
+        { "ZWL", "津巴布韦元" },
     };
 
-    public static List<CurrencyName> GetByCode(string code)
+    public static Result<List<CurrencyName>> GetByCode(string code)
     {
-        string englishName =
-            NamesEnglish.GetValueOrDefault(code)
-            ?? throw new ArgumentException($"Currency name not found for code: {code}");
+        string? englishName = NamesEnglish.GetValueOrDefault(code);
+        if (englishName == null)
+            return Result.Fail();
 
-        string russianName =
-            NamesRussian.GetValueOrDefault(code)
-            ?? throw new ArgumentException($"Currency name not found for code: {code}");
+        string? russianName = NamesRussian.GetValueOrDefault(code);
+        if (russianName == null)
+            return Result.Fail();
 
-        string frenchName =
-            NamesFrench.GetValueOrDefault(code)
-            ?? throw new ArgumentException($"Currency name not found for code: {code}");
+        string? frenchName = NamesFrench.GetValueOrDefault(code);
+        if (frenchName == null)
+            return Result.Fail();
 
-        string germanName =
-            NamesGerman.GetValueOrDefault(code)
-            ?? throw new ArgumentException($"Currency name not found for code: {code}");
+        string? germanName = NamesGerman.GetValueOrDefault(code);
+        if (germanName == null)
+            return Result.Fail();
 
-        string spanishName =
-            NamesSpanish.GetValueOrDefault(code)
-            ?? throw new ArgumentException($"Currency name not found for code: {code}");
+        string? spanishName = NamesSpanish.GetValueOrDefault(code);
+        if (spanishName == null)
+            return Result.Fail();
 
-        string chineseName =
-            NamesChinese.GetValueOrDefault(code)
-            ?? throw new ArgumentException($"Currency name not found for code: {code}");
+        string? chineseName = NamesChinese.GetValueOrDefault(code);
+        if (chineseName == null)
+            return Result.Fail();
 
-        return
-        [
-            new CurrencyName(englishName, "en"),
-            new CurrencyName(russianName, "ru"),
-            new CurrencyName(frenchName, "fr"),
-            new CurrencyName(germanName, "de"),
-            new CurrencyName(spanishName, "es"),
-            new CurrencyName(chineseName, "zh")
-        ];
+        return new List<CurrencyName>()
+        {
+            new(englishName, "en"),
+            new(russianName, "ru"),
+            new(frenchName, "fr"),
+            new(germanName, "de"),
+            new(spanishName, "es"),
+            new(chineseName, "zh"),
+        };
     }
 
     public static string? GetName(string code, string language)
     {
-        return GetByCode(code).FirstOrDefault(x => x.Language == language)?.Value;
+        Result<List<CurrencyName>> currencyNamesOrFailure = GetByCode(code);
+        return currencyNamesOrFailure.IsFailure
+            ? null
+            : currencyNamesOrFailure.Value.FirstOrDefault(x => x.Language == language)?.Value;
     }
 }
