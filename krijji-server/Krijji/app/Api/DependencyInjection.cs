@@ -38,8 +38,7 @@ public static class DependencyInjection
                         .WithOrigins(
                             "http://localhost",
                             "http://localhost:3000",
-                            "https://help-desk-tg-bot.ru/",
-                            "https://kaijji.com"
+                            "https://krijji.com"
                         )
                         .AllowAnyHeader()
                         .AllowAnyMethod()
@@ -56,10 +55,12 @@ public static class DependencyInjection
             .MinimumLevel.Information()
             .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
             .Enrich.FromLogContext()
-            .WriteTo.Async(writeTo => writeTo.Console())
             .WriteTo.Async(writeTo =>
                 writeTo.File(path: "/logs/log-.log", rollingInterval: RollingInterval.Day)
             );
+
+        if (ApplicationEnvirontment.IsDevelopment())
+            loggerConfiguration.WriteTo.Async(writeTo => writeTo.Console());
 
         Log.Logger = loggerConfiguration.CreateLogger();
 
